@@ -1,0 +1,161 @@
+
+
+
+- Feltétlenül adja meg a használat időtartamát és használatának módját 
+	(QR-kód elküldve, fizikai jegyre cserélve a recepción stb.).
+
+-Kérjük, írja be a felhasználás helyének megfelelő nevét és címét.
+
+-Ha utalványt küldenek, feltétlenül töltse ki a rendeltetési helyet (e-mail, üzenet stb.) És az utalvány használatának módját (jelen legyen a mobil képernyőn, feltétlenül vigye el nyomtatás után stb.).
+
+- Ha a bérlet megegyezik az egynapos vagy a kétnapos bérlettel (vagy 24 órával, 48 órával stb.), Kérjük, adja meg a bérlet kezdési és befejezési idejét. (pl. egynapos bérlet esetén, függetlenül a kezdési időtől, az első nap másnap ér véget, 24 órával azután, hogy a kezdési időpont egy napnak számít, stb.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hirdertes 
+
+select country 
+select city
+
+	checkbox No applicable city
+
+1st category kategória
+	radio button
+
+	tour
+	admission ticket
+	activity
+	class
+	snap shooting
+	delicacies
+	spa/helaing
+	transportation
+	rental
+	package
+
+
+
+lang checkbox
+
+
+
+category checkbox
+
+	 Museum/art museum
+	 a national park
+	 shopping
+	 campus/office
+	 theme park
+	 city tour
+	 pick-up/send
+	 camping
+	 spa/massage
+	 suburb
+
+	 winery
+	 unique experience
+	 gourmet/cafe
+	 cruise/yacht
+	 class
+	 interpretation/business
+	 sports
+	 night view
+	 helicopter/light aircraft
+	 local tour
+
+	 show/musical
+	 bicycle
+
+travel title
+one line summary
+travel introduction
+
+travel size
+	-private tour
+	-group tour
+minimum number of departures //if group
+	1,2,3,4 ... 25 
+vehicle
+	-vehivle movement
+	-go on foot
+	-etc
+photo registration multiple
+	//We have confirmed that the registered photos do not infringe on the rights of third parties (portrait rights, copyrights, etc.) and are commercially available. *
+
+
+setting available time
+	-12,18,24,30,36,48,60,72
+
+
+meeting time
+	-Time
+	coordination after confirmation of reservation
+	-The name of the meeting place
+
+	-meeting place photo
+
+
+Tour course
+	(
+	title
+	time hour,minute required
+	course content
+	photo
+	)+++
+
+Total time required
+	day
+	houre
+	minute
+
+
+price
+	-simple pricing
+		-minimum number of people
+		-maximum number of people
+
+		price per person
+		-currency
+		-amount
+	-price per person  //arsavok
+	 	(
+		-personel /number
+		-currency
+		-amount
+		)
+
+price included
+	textarea
+traveler's burden (not included)
+	textarea
+Essential Guidance * 
+	textarea
+	/*
+	please inform us about ho to dress and what to prepare ...... 
+	*/

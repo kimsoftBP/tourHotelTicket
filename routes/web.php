@@ -1,0 +1,200 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+use App\Product;
+use App\Reservation;
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+/* 
+Route::get('/', function () {
+    return view('index');
+});*/
+Route::get('/', function ( Request $req) {
+	$loc=env('DEFAULT_LOCAL','en');    
+	$lang=$loc;
+	try {
+	  $loc= substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2); 
+	} catch (Exception $e) {
+	  $loc="en";
+	}
+	$loc="ko";
+  	$list=env('AVAILABLE_LOCAL', 'en');
+    $exp=explode(',',$list);
+    foreach ($exp as $row) {
+		if($loc==$row){
+		    $true=1;
+		    $lang=$loc;
+		}            
+    }
+    app()->setLocale($lang);
+  //  return app('App\Http\Controllers\indexController')->home($req);
+    return app('App\Http\Controllers\IndexController')->index();
+    //return view('index');
+})->name('main');
+
+
+
+/*
+Route::get('emailview',function(){
+	$data['product']=Product::first();
+	$data['reservation']=Reservation::first();
+	$data['tomorrow']=date('Y-m-d',strtotime('1 days'));
+
+	$data['locale']=app()->getLocale();
+
+	return view('emails.partner_reservation')->with('data',$data);
+	return view('emails.reservation')->with('data',$data);
+});*/
+//Auth::routes(['verify' => true]);
+
+Route::group([
+  'prefix' => '{locale}', 
+  'where' => ['locale' => '[a-zA-Z]{2}'], 
+  'middleware' => 'setlocale'], function() {
+
+  	Route::get('/','IndexController@index')->name('index');
+  	Route::get('/cities/{slug}','IndexController@cities')->name('cities');
+  	Route::get('/regions','RegionController@index')->name('region');
+  	Route::get('/offers','IndexController@offers')->name('offers');
+		Route::get('/offers/{slug}','IndexController@offersproduct')->name('offers.product');
+		Route::get('/offersproduct','IndexController@offersproductbyid')->name('offers.product.byid');
+
+  	Route::get('/ajax/cities','IndexController@ajaxlistcities')->name('ajaxlistcities');
+
+  	Route::get('/partnersignup','IndexController@partnersignup')->name('partnersignup');
+  	Route::post('/partnersignup','IndexController@postpartnersignup')->name('partnersignup');
+
+
+	Route::group(['middleware'=>'verified','middleware'=>'auth' ], function () {
+		Route::get('/verifycomplete','User\UserController@verifycomplete')->name('user.verifycomplete');
+		Route::get('/order','User\UserController@orders')->name('user.orders');
+
+		Route::get('/account','User\UserController@account')->name('account')->middleware('verified');
+		Route::get('/account/edit','User\UserController@edit')->name('account.edit');
+		Route::post('/account/edit','User\UserController@postedit')->name('account.edit');
+		Route::get('/account/changepassword','User\UserController@changepassword')->name('account.changepassword');
+		Route::post('/account/changepassword','User\UserController@postchangepassword')->name('account.changepassword');
+
+		//Route::get('/reservation','User\UserController@reservation')->name('reservation');
+		Route::post('/reservation','User\UserController@postreservation')->name('reservation');
+		Route::get('/paymethods','User\UserController@selectpaymethod')->name('paymethods');
+		Route::get('/pay','Paymethods\PaymethodsController@index')->name('pay');
+
+		/*partner*/
+		Route::group(['middleware'=>'authpartner','prefix'=>'partner'],function(){
+						Route::get('/','Partner\PartnerController@index')->name('partner');
+						Route::get('/product','Partner\PartnerController@product')->name('partner.product');
+						Route::get('/product/add','Partner\PartnerController@addproduct')->name('partner.product.add');
+						Route::post('/product/add','Partner\PartnerController@addproductpost')->name('partner.product.add');
+						Route::get('/product/edit/1','Partner\PartnerController@editpage1')->name('partner.product.editpage1');
+
+						Route::middleware('optimizeImages')->group(function () {
+							Route::post('/product/edit/1','Partner\PartnerController@posteditpage1')->name('partner.product.editpage1');
+						});
+
+						Route::post('/product/delete','Partner\PartnerController@deleteproduct')->name('partner.product.delete');
+
+						Route::get('/product/edit/2','Partner\PartnerController@editpage2')->name('partner.product.editpage2');
+						Route::post('/product/edit/2','Partner\PartnerController@posteditpage2')->name('partner.product.posteditpage2');
+						
+						Route::get('/product/edit/3','Partner\PartnerController@editpage3')->name('partner.product.editpage3');
+						Route::post('/product/edit/3','Partner\PartnerController@posteditpage3')->name('partner.product.editpage3');
+
+						Route::post('/product/answare','Partner\PartnerController@postansware')->name('partner.product.answare');
+
+						Route::get('/reservation/response','Partner\PartnerController@reservationresponse')->name('partner.reservation.response');
+						Route::post('/reservation/response','Partner\PartnerController@postreservationresponse')->name('partner.reservation.postresponse');
+						//Route::get('/edit','Partner\PartnerController@edit')->name('partner.edit');
+						Route::get('/city','Partner\PartnerController@ajaxcity')->name('partner.ajaxcity');
+
+						Route::get('/dashboard','Partner\DashboardController@dashboard')->name('partner.dashboard');
+
+			Route::group(['prefix'=>'bus'],function(){
+				Route::get('/','Bus\Partner\PartnerBusController@index')->name('partner.bus.index');
+				Route::get('/buses','Bus\Partner\PartnerBusController@buses')->name('partner.bus.buses');
+				Route::post('/buses/add','Bus\Partner\PartnerBusController@addBus')->name('partner.bus.buses.add');
+
+				Route::post('/ajax/busmodels','Bus\Partner\PartnerBusController@ajaxModel')->name('ajax.bus.model');
+			});
+		});
+		
+		//admin middleware
+		Route::group(['middleware'=>'authadmin','prefix'=>'admin'],function(){
+			Route::get('/','Admin\AdminController@index')->name('admin');
+			Route::get('/cities','Admin\CitiesController@index')->name('admin.cities');
+			Route::post('/cities/add','Admin\CitiesController@add')->name('admin.cities.add');
+			Route::get('/cities/edit','Admin\CitiesController@edit')->name('admin.cities.edit');
+			Route::post('/cities/edit','Admin\CitiesController@postedit')->name('admin.cities.edit');
+			Route::post('/cities/delete','Admin\CitiesController@delete')->name('admin.cities.delete');
+			//Route::post('/region','Admin\AdminController@ajaxregion')->name('ajaxregion');
+			Route::get('/region','Admin\AjaxController@ajaxregion')->name('ajaxregion');
+			Route::get('/country','Admin\AjaxController@ajaxcountry')->name('ajaxcountry');
+			
+
+			Route::get('/users','Admin\UsersController@users')->name('admin.users');
+			Route::post('/users','Admin\UsersController@addnewuser')->name('admin.addnewuser');
+			Route::get('/user/edit','Admin\UsersController@edituser')->name('admin.users.edit');
+			Route::post('/user/edit','Admin\UsersController@postedituser')->name('admin.users.edit');
+
+
+			Route::get('/ajax/product','Admin\ProductController@ajaxproduct')->name('ajaxproduct');
+			Route::get('/product','Admin\ProductController@index')->name('admin.product');
+			Route::post('/product/confirm','Admin\ProductController@postconfirm')->name('admin.product.confirm');
+			Route::get('/dashboard','Admin\DashboardController@index')->name('admin.dashboard');			 	
+			//advertising start
+			Route::get('/advertising','Admin\AdminController@advertising')->name('admin.advertising');
+			Route::get('/advertising/edit','Admin\AdminController@advertisingedit')->name('admin.advertising.edit');
+			Route::post('advertising/edit','Admin\AdminController@advertisingpostedit')->name('admin.advertising.edit');
+			Route::post('advertising/add','Admin\AdminController@advertisingadd')->name('admin.advertising.add');						
+			Route::post('/advertising/delete','Admin\AdminController@advertisingdelete')->name('admin.advertising.delete');	
+			//		
+		});
+		/*
+		Route::group(['prefix'=>''],function(){
+
+		});*/
+
+	});
+	
+	Auth::routes();
+	Auth::routes(['verify' => true]);
+
+	//Route::get('/home', 'HomeController@index')->name('home');
+});
+
+//
+	//Auth::routes();
+Route::get('refresh-csrf', function(){     
+  return csrf_token(); 
+}); 
+
+
+//Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
+//Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
+
+
+//Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+
+
+/*
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/users/emailverified');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+*/
+
+
+
+//Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
