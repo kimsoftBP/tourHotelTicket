@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'id','name', 'email', 'password','phonenumber','countryid','cityid',
+        'id','name', 'email', 'password','phonenumber','countryid','cityid','city','company_name','postcode','address','tax_number',
     ];
 
     /**
@@ -69,7 +69,6 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return true;
     }
-
     public function permadmin(){                
         $perm=Permission::where('userid',$this->id)
             ->whereHas('permissionName',function(Builder $query){
@@ -83,7 +82,9 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-
+    /***
+     * bus
+     * */
     public function permPartnerBus(){
         $perm=Permission::where('userid',$this->id)
             ->whereHas('permissionName',function(Builder $query){
@@ -98,17 +99,32 @@ class User extends Authenticatable implements MustVerifyEmail
     /****
      * this perm tour and ticket
      * ***/
+    public function permPartnerTicketOrTour(){
+        $perm=Permission::where('userid',$this->id)
+            ->whereHas('permissionName',function(Builder $query){
+                $query->whereRaw('perm_name like "partner tour/ticket"');
+                //$query->whereRaw('perm_name like "partner%"');
+            })->get();
+        if($perm==NULL || count($perm)==0){
+            return false;
+        }
+        return true;
+    }
+    /***
+     * 
+     * **/
     public function permpartner(){
         $perm=Permission::where('userid',$this->id)
             ->whereHas('permissionName',function(Builder $query){
-                $query->whereRaw('perm_name like "partner"');
+                $query->whereRaw('perm_name like "partner%"');
             })
             ->get();
         if($perm==NULL || count($perm)==0){
             return false;
         }
-        return true;   
+        return true;
     }
+
     public function permcontinentadmin(){
         $perm=Permission::where('userid',$this->id)
             ->whereHas('permissionName',function(Builder $query){
@@ -180,5 +196,14 @@ class User extends Authenticatable implements MustVerifyEmail
             'userid',//Local Key on BusCompanyPermission table
             );
     }
-
+    /***
+     return $this->hasManyThrough(
+            Deployment::class,
+            Environment::class,
+            'project_id', // Foreign key on the environments table...
+            'environment_id', // Foreign key on the deployments table...
+            'id', // Local key on the projects table...
+            'id' // Local key on the environments table...
+        );
+     * **/
 }

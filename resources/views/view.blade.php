@@ -78,21 +78,31 @@
 						<button class="navbar-toggler citiesnavbar" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
-						<a class="navbar-brand citiesnavbar" href="{{route('index',app()->getLocale())}}">{{env('APP_NAME')}}</a>
+						<a class="navbar-brand citiesnavbar" href="{{route('index',app()->getLocale())}}">
+							<!--{{env('APP_NAME')}} -->
+							<img src="{{asset('image/logo/logo_transparent3.png')}}" style="max-height: 40px; max-width:220px">
+						</a>
 
 						<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 
 
 							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+								{{--
 								<li>
 									<form class="form-inline my-2 my-lg-0" action="{{route('offers',app()->getLocale())}}" method="get">
 										<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
 										<button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{__('messages.search')}}</button>
+										<!--<button>Bus search</button>-->
 									</form>	
+								</li>--}}
+								<li class="nav-item active">
+									<a class="nav-link citiesnavbar" href="{{route('bus.search',app()->getLocale())}}">{{__('messages.bus')}} <span class="sr-only">(current)</span></a>
 								</li>
+								<!--
 								<li class="nav-item active">
 									<a class="nav-link citiesnavbar" href="#">Home <span class="sr-only">(current)</span></a>
-								</li>
+								</li>-->
 							<!--
 							<li class="nav-item">
 								<a class="nav-link" href="#">Link</a>

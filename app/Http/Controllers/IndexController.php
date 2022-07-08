@@ -23,6 +23,9 @@ use App\LogSearch;
 use App\SubCategory;
 use App\Advertising;
 
+use App\BusCompany;
+use App\BusCompanyPermission;
+
 class IndexController extends Controller
 {
     public function index(){
@@ -464,7 +467,11 @@ class IndexController extends Controller
 
 
     public function partnersignup(){
-        return view('partner.signup');
+        $data['p_list']=[
+                'tourorticket',
+                'bus'];
+        $data['country']=Country::get();
+        return view('partner.signup')->with('data',$data);
     }
     public function postpartnersignup(Request $req){
         $validateDate=$req->validate([
@@ -472,15 +479,51 @@ class IndexController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'acceptgdpr'=>['required','string'],
+
+            'country'=>'required|exists:App\Country,id',
+            'city'=>'required|string',
+            'category'=>'required|string',
+            'companyName'=>'required|string',
+            'postcode'=>'required|string',
+            'address'=>'required|string',
+            'taxNumber'=>'required|string',
             ]);
         $user=User::create([
             'name' => $req->name,
             'email' => $req->email,
             'password' => Hash::make($req->password),
+            'countryid'=>$req->country,
+            'city'=>$req->city,
+            'company_name'=>$req->companyName,
+            'postcode'=>$req->postcode,
+            'address'=>$req->address,
+            'tax_number'=>$req->taxNumber,
         ]);
         $permission=PermissionName::where('perm_name','partner')->first();
-        Permission::create(['userid'=>$user->id,
-            'permid'=>$permission->id]);
+        $busperm=PermissionName::where('perm_name','partner bus')->first();
+        $ticketperm=PermissionName::where('perm_name','partner tour/ticket')->first();
+
+       // Permission::create(['userid'=>$user->id,'permid'=>$permission->id]);
+        if(strtolower($req->category)=='bus'){
+            Permission::create(['userid'=>$user->id,'permid'=>$busperm->id]);
+            $buscompany=BusCompany::create([
+                    'name'=>$req->companyName,
+                    'postcode'=>$req->postcode,
+                    'address'=>$req->address,
+                    'tax_number'=>$req->taxNumber,
+                    'countryid'=>$req->country,
+                    'city'=>$req->city,
+                    ]);
+            $buscompperm=BusCompanyPermission::create([
+                    'userid'=>$user->id,
+                    'bus_companyid'=>$buscompany->id,
+                    ]);
+        }
+        if(strtolower($req->category)=='tourorticket'){
+            Permission::create(['userid'=>$user->id,'permid'=>$ticketperm->id]);
+        }
+
+
         return redirect(route('login',app()->getLocale()) )->with('success',__('messages.registrationcomplete'));
     }
 }

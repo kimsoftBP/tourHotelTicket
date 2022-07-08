@@ -71,6 +71,8 @@ class Kernel extends HttpKernel
         'setlocale' => \App\Http\Middleware\SetLocale::class,
         'authadmin'=>\App\Http\Middleware\Authadmin::class,
         'authpartner'=>\App\Http\Middleware\Authpartner::class,
+        'authbus'=>\App\Http\Middleware\AuthBus::class,
+        'authtourticket'=>\App\Http\Middleware\AuthTourTicket::class,
         
         'permadmin'=>\App\Http\Middleware\PermAdmin::class,
         'permadminorcontinentadmin'=>\App\Http\Middleware\PermAdminOrPermContinentAdmin::class,

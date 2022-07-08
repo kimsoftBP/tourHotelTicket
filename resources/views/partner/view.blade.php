@@ -15,7 +15,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-
+<link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" >
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script type="text/javascript">
@@ -97,7 +97,7 @@
     <!-- 
 	ticket
     -->
-    		@if(Auth::user()->permpartner())
+    		@if(Auth::user()->permPartnerTicketOrTour())
 	    		<li class="">
 	    			<a href="#ticketSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{__('messages.tourorticket')}}</a>
 	  				<ul class="collapse list-unstyled" id="ticketSubmenu">
@@ -114,7 +114,7 @@
   					<a href="#busSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{__('messages.bus')}}</a>
   					<ul class="collapse list-unstyled" id="busSubmenu">
 		        	<li>        		
-		        		<a href="{{route('partner.bus.index',app()->getLocale())}}">{{__('messages.')}}</a>        		
+		        		<a href="{{route('partner.bus.index',app()->getLocale())}}">{{__('messages.dashboard')}}</a>        		
 		        	</li>
 		        	<li>
 		        		<a href="{{route('partner.bus.buses',app()->getLocale())}}">{{__('messages.buses')}}</a>

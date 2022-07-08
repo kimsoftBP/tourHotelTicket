@@ -73,6 +73,9 @@ Route::group([
   	Route::get('/partnersignup','IndexController@partnersignup')->name('partnersignup');
   	Route::post('/partnersignup','IndexController@postpartnersignup')->name('partnersignup');
 
+  	Route::group(['prefix'=>'bus'],function(){
+  		Route::get('/','Bus\BusController@search')->name('bus.search');
+  	});
 
 	Route::group(['middleware'=>'verified','middleware'=>'auth' ], function () {
 		Route::get('/verifycomplete','User\UserController@verifycomplete')->name('user.verifycomplete');
@@ -90,44 +93,53 @@ Route::group([
 		Route::get('/pay','Paymethods\PaymethodsController@index')->name('pay');
 
 		/*partner*/
-		Route::group(['middleware'=>'authpartner','prefix'=>'partner'],function(){
-						Route::get('/','Partner\PartnerController@index')->name('partner');
+		Route::group(['middleware'=>'authpartner','prefix'=>'partner'],function(){			
+			/***
+			 * Tour/Ticket
+			 * **/
+			Route::get('/','Partner\PartnerController@index')->name('partner');
+			Route::group(['middleware'=>'authtourticket', 'prefix'=>'tour'],function(){
 						Route::get('/product','Partner\PartnerController@product')->name('partner.product');
 						Route::get('/product/add','Partner\PartnerController@addproduct')->name('partner.product.add');
 						Route::post('/product/add','Partner\PartnerController@addproductpost')->name('partner.product.add');
 						Route::get('/product/edit/1','Partner\PartnerController@editpage1')->name('partner.product.editpage1');
-
 						Route::middleware('optimizeImages')->group(function () {
 							Route::post('/product/edit/1','Partner\PartnerController@posteditpage1')->name('partner.product.editpage1');
 						});
-
 						Route::post('/product/delete','Partner\PartnerController@deleteproduct')->name('partner.product.delete');
-
 						Route::get('/product/edit/2','Partner\PartnerController@editpage2')->name('partner.product.editpage2');
-						Route::post('/product/edit/2','Partner\PartnerController@posteditpage2')->name('partner.product.posteditpage2');
-						
+						Route::post('/product/edit/2','Partner\PartnerController@posteditpage2')->name('partner.product.posteditpage2');		
 						Route::get('/product/edit/3','Partner\PartnerController@editpage3')->name('partner.product.editpage3');
 						Route::post('/product/edit/3','Partner\PartnerController@posteditpage3')->name('partner.product.editpage3');
-
 						Route::post('/product/answare','Partner\PartnerController@postansware')->name('partner.product.answare');
-
 						Route::get('/reservation/response','Partner\PartnerController@reservationresponse')->name('partner.reservation.response');
 						Route::post('/reservation/response','Partner\PartnerController@postreservationresponse')->name('partner.reservation.postresponse');
 						//Route::get('/edit','Partner\PartnerController@edit')->name('partner.edit');
 						Route::get('/city','Partner\PartnerController@ajaxcity')->name('partner.ajaxcity');
-
 						Route::get('/dashboard','Partner\DashboardController@dashboard')->name('partner.dashboard');
-
-			Route::group(['prefix'=>'bus'],function(){
+			});
+			/**
+			 * Bus partner
+			 * **/
+			Route::group(['middleware'=>'authbus','prefix'=>'bus'],function(){
 				Route::get('/','Bus\Partner\PartnerBusController@index')->name('partner.bus.index');
 				Route::get('/buses','Bus\Partner\PartnerBusController@buses')->name('partner.bus.buses');
 				Route::post('/buses/add','Bus\Partner\PartnerBusController@addBus')->name('partner.bus.buses.add');
-
+				Route::post('/buses/delet','Bus\Partner\PartnerBusController@deleteBus')->name('partner.bus.buses.delete');
+				Route::any('/buses/edit','Bus\Partner\PartnerBusController@postEditBus')->name('partner.bus.buses.postedit');
 				Route::post('/ajax/busmodels','Bus\Partner\PartnerBusController@ajaxModel')->name('ajax.bus.model');
+				Route::any('/ajax/editbus','Bus\Partner\PartnerBusController@editBus')->name('partner.bus.buses.edit');
+
+				Route::any('/ajax/available','Bus\Partner\PartnerBusController@ajaxAvailableBus')->name('partner.ajax.bus.available.calendar');
+				Route::post('/buses/available/new','Bus\Partner\PartnerBusController@newAvailableC')->name('partner.bus.available.new');
+				Route::post('/buses/available/loadedit','Bus\Partner\PartnerBusController@loadEditAvailable')->name('partner.bus.available.loadedit');
+				Route::post('/buses/available/edit','Bus\Partner\PartnerBusController@editAvailable')->name('partner.bus.available.edit');
 			});
 		});
 		
-		//admin middleware
+		/**
+		 * admin middleware
+		 * **/
 		Route::group(['middleware'=>'authadmin','prefix'=>'admin'],function(){
 			Route::get('/','Admin\AdminController@index')->name('admin');
 			Route::get('/cities','Admin\CitiesController@index')->name('admin.cities');

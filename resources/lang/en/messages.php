@@ -1,6 +1,47 @@
 <?php
 
 return [
+	'new'=>'New',
+	'edit'=>'Edit',
+	'Available'=>'Available',
+	'Pending'=>'Pending',
+	'Reserved'=>'Reserved',
+
+	'persons'=>'persons',
+	'dateRange'=>'date range',
+	'calendar'=>'Calendar',
+	'companyName'=>'company name',
+	'postCode'=>'postcode',
+	'address'=>'Address',
+	'taxNumber'=>'Tax number',
+
+
+	'monday'=>'M',
+	'tuesday'=>'T',
+	'wednesday'=>'W',
+	'thursday'=>'T',
+	'friday'=>'F',
+	'saturday'=>'S',
+	'sunday'=>'S',
+
+	'Monday'=>'M',
+	'Tuesday'=>'T',
+	'Wednesday'=>'W',
+	'Thursday'=>'T',
+	'Friday'=>'F',
+	'Saturday'=>'S',
+	'Sunday'=>'S',
+	
+	'w1'=>'Monday',
+	'w2'=>'Tuesday',
+	'w3'=>'Wednesday',
+	'w4'=>'Thursday',
+	'w5'=>'Friday',
+	'w6'=>'Saturday',
+	'w7'=>'Sunday',
+	
+	'YearOfManufacture'=>'Year of manufacutre',
+	'deletecomplete'=>'Delete complete',
 	'savecomplete'=>'Save complete',
 	'year'=>'Year',
 	'model'=>'Model',
