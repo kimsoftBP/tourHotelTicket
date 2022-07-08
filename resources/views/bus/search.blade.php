@@ -45,11 +45,11 @@ $(function() {
 	<form>
 		<div class="row">
 			<label class="d-none d-lg-block col-form-label">{{__('messages.from')}}</label>
-			<div class="col-3 col-md-2 col-lg-2">
+			<div class="col-12 col-md-2 col-lg-2">
 				<input class="form-control @error('from') is-invalid @enderror" type="text" name="from" placeholder="{{__('messages.from')}}" required value="{{old('from',$data['search']['from'])}}">
 			</div>
 			<label class="d-none d-lg-block col-form-label">{{__('messages.date')}}</label>
-			<div class="">
+			<div class="d-flex pl-3 pl-md-0">
 				<input class="form-control @error('daterange') is-invalid @enderror" type="text" name="daterange" value="{{old('daterange',$data['search']['range'])}}" autocomplete="off" placeholder="{{__('messages.dateRange')}}" />
 			</div>
 			<label class="d-none d-lg-block col-form-label">{{__('messages.persons')}}</label>

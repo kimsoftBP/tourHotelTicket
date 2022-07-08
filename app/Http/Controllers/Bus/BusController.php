@@ -22,11 +22,11 @@ class BusController extends Controller
             'daterange'=>'nullable|string',
             'persons'=>'nullable|integer',
             ]);
-        $daterange=$req->daterange;
+        $daterange=$req->daterange;        
         $search['from']=$req->from;
         $search['fromdate']=substr($daterange,0,13);
         $search['todate']=substr($daterange,13,strlen($daterange));
-        $search['persons']=$req->persons;
+        $search['persons']=$req->persons??1;
         $search['range']=$req->daterange;
 
         $data['brand']=BusType::groupBy('brand')->orderby('brand')->get();
@@ -36,6 +36,8 @@ class BusController extends Controller
         $param['available']=BusAvailableType::where('name','Available')->first()->id;
         $data['bus']=Bus::
                 with(['BusType','BusCompany','availableCalendar'])
+                ->where('passenger_seats','>=',$search['persons'])
+
                 /*
                   ->whereHas('available',function($query)use($search,$param){
                   })
@@ -45,8 +47,16 @@ class BusController extends Controller
                 /**
                  * reverse logic check 
                  * problem not set data .....
+                 * 
+                 * the daily calendar data 
                  * **/
-                /*
+/***
+SELECT * 
+FROM `bus` 
+LEFT JOIN (SELECT COUNT(id), bus_id FROM bus_available_calendar WHERE date >= "2022-07-07" AND date <="2022-07-12" ) AS dlist
+ON bus.id = dlist.bus_id
+ORDER BY `created_at` DESC
+                **/
                 ->whereDoesntHave('available',function($query)use($search,$param){
                     $query->where(function($query)use($search,$param){
                             $query->where('date','<=',$search['fromdate'])
@@ -63,9 +73,10 @@ class BusController extends Controller
                                 ->where('bus_available_typeid','!=',$param['available'])
                                 ->where('remove','like',0);
                         });
-                })*/
+                })
+
                 ->whereHas('BusCompany',function($queryCompany)use($search,$param){
-                    $queryCompany->where('city',$search['from']);
+                    $queryCompany->where('city',$search['from']); 
                 })
                 ->groupBy('bus_companyid')
                 ->groupBy('bustypeid')
