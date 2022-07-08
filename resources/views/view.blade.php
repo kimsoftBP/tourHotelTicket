@@ -80,7 +80,7 @@
 						</button>
 						<a class="navbar-brand citiesnavbar" href="{{route('index',app()->getLocale())}}">
 							<!--{{env('APP_NAME')}} -->
-							<img src="{{asset('image/logo/logo_transparent3.png')}}" style="max-height: 40px; max-width:220px">
+							<img src="{{asset('img/logo/logo_transparent3.png')}}" style="max-height: 40px; max-width:220px">
 						</a>
 
 						<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
