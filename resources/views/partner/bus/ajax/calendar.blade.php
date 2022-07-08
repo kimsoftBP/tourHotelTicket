@@ -47,7 +47,7 @@
 
 				$weeklastday=0;
 				$act=1;
-
+				$EndLastWeek=1;
 				$i=0;
 			@endphp
 			@while($data['month']==$data['startdate']->format('m'))
@@ -57,6 +57,8 @@
 						@if($firstrow && $toweekday>1)
 							<td colspan="{{$toweekday-1}}"></td>
 							@php $firstrow=0; @endphp
+						@else
+							@php $EndLastWeek=1; @endphp
 						@endif
 						
 						
@@ -68,10 +70,11 @@
 									@endphp
 									@while($k<$records && $data['availableCalendar'][$k]->day<=$act )
 										@php
-										if($data['availableCalendar'][$k]->day<$act){
-											$k++;
-											continue;
-										}
+											$notEndThisweek=1;
+											if($data['availableCalendar'][$k]->day<$act){
+												$k++;
+												continue;
+											}
 											$empty=0;										
 											$day=$data['availableCalendar'][$k]->day;
 											
@@ -88,20 +91,19 @@
 											    case 'Reserved':
 											    	$availablebg="bg-danger";
 											    	break;
-											    
-											    default:
-											        // code...
-											        break;
 											}
-
 											$length=1;
 											$knext=1;
+											
 											$daysLeftThisWeek=$weeklastday-$day+1;
 											$toAndEndDayDiff=$calendarintervall->diff($data['year']."-".$data['month']."-".$act);
+
 											if($daysLeftThisWeek > $toAndEndDayDiff ){
 												$length=$toAndEndDayDiff+1;
 												$knext=$toAndEndDayDiff;
 											}else{
+												$notEndThisweek=-1;
+											//	$EndLastWeek=-1;
 												$length=$daysLeftThisWeek;
 												$knext=$daysLeftThisWeek;
 											}
@@ -113,7 +115,7 @@
 											}
 										@endphp
 										<td colspan="{{$length}}">
-											<div onclick="editCalendarIntervallum()" class="progress cursor-pointer" class="" style="margin-left:10px ; margin-right:10px; cursor: pointer;">
+											<div data-toggle="modal" data-target="#editCalendarIntervallumModal" onclick="editCalendarIntervallum({{$calendarintervall->id}})" class="progress cursor-pointer" class="" style="margin-left:{{$EndLastWeek*10}}px ; margin-right:{{$notEndThisweek*10}}px; cursor: pointer;">
 											  <div class="progress-bar {{$availablebg}}" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">  </div>
 											</div>
 										@php
@@ -131,24 +133,6 @@
 									@endphp
 								@endwhile
 							@endif
-						
-
-						<!--				
-						<td colspan="2">
-							<div onclick="editCalendarIntervallum()" class="progress cursor-pointer" class="" style="margin-left:15px ; margin-right:15px; cursor: pointer;">
-							  <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">14:00 - 10:00</div>
-							</div>
-						</td>
-						<td colspan="2">
-							<div class="progress" class="" style="margin-left:15px ; margin-right:15px">
-							  <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">daf</div>
-							</div>
-						</td>
-						<td colspan="2">
-							<div class="progress" class="" style="margin-left:-35px ; margin-right:15px">
-							  <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">daf</div>
-							</div>
-						</td>-->
 					</tr>
 					<tr>
 				@endif
@@ -169,15 +153,91 @@
 				@endphp
 			@endwhile
 			<!-- last week row --->
-			<!--
-					<tr>						
-						<td colspan="1">
-							<div class="progress" class="" style="margin-left:15px ; margin-right:15px">
-							  <div class="progress-bar bg-secondary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">daf</div>
-							</div>
-						</td>
-					</tr>-->
-		
+
+			<!-- calendar last row intervallum show  start same copy past like before rows print-->
+					<tr>		
+						@if($firstrow && $toweekday>1)
+							<td colspan="{{$toweekday-1}}"></td>
+							@php $firstrow=0; @endphp
+						@else
+							@php $EndLastWeek=1; @endphp
+						@endif
+						
+						
+							@if($data['availableCalendar']!=NULL)								
+								@while($act<=$weeklastday)
+									@php 
+										$length=1;
+										$empty=1;
+									@endphp
+									@while($k<$records && $data['availableCalendar'][$k]->day<=$act )
+										@php
+											$notEndThisweek=1;
+											if($data['availableCalendar'][$k]->day<$act){
+												$k++;
+												continue;
+											}
+											$empty=0;										
+											$day=$data['availableCalendar'][$k]->day;
+											
+											$calendarintervall=$data['availableCalendar'][$k]->available;
+											$available=$calendarintervall->available->name;
+											$availablebg="";
+											switch ($available) {
+											    case 'Available':
+											    	$availablebg="bg-success";
+											        break;
+											    case 'Pending':
+											    	$availablebg="bg-primary";
+											    	break;
+											    case 'Reserved':
+											    	$availablebg="bg-danger";
+											    	break;
+											}
+											$length=1;
+											$knext=1;
+											
+											$daysLeftThisWeek=$weeklastday-$day+1;
+											$toAndEndDayDiff=$calendarintervall->diff($data['year']."-".$data['month']."-".$act);
+
+											if($daysLeftThisWeek > $toAndEndDayDiff ){
+												$length=$toAndEndDayDiff+1;
+												$knext=$toAndEndDayDiff;
+											}else{
+												$notEndThisweek=-1;
+											//	$EndLastWeek=-1;
+												$length=$daysLeftThisWeek;
+												$knext=$daysLeftThisWeek;
+											}
+											if($length==0){
+												$length=1;
+											}
+											if($knext==0){
+												$knext=1;
+											}
+										@endphp
+										<td colspan="{{$length}}">
+											<div data-toggle="modal" data-target="#editCalendarIntervallumModal" onclick="editCalendarIntervallum({{$calendarintervall->id}})" class="progress cursor-pointer" class="" style="margin-left:{{$EndLastWeek*10}}px ; margin-right:{{$notEndThisweek*10}}px; cursor: pointer;">
+											  <div class="progress-bar {{$availablebg}}" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">  </div>
+											</div>
+										@php
+											$k+=$knext;
+											//$k++;
+										@endphp
+									@endwhile
+									@if($empty)
+										<td>
+									@endif
+									</td>
+									@php
+										$act+=$length;
+										//$act++;
+									@endphp
+								@endwhile
+							@endif
+					</tr>
+
+			<!-- calendar last row intervallum show  end-->
 		</tr>
 	</table>
 </div>

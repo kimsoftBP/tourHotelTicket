@@ -43,8 +43,21 @@
 		   }
 		});
 	}
-	function editCalendarIntervallum(){
+	function editCalendarIntervallum(id){
 		console.log('edit intervall');
+
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		 $.ajax({
+		   type:'post',
+		   url:'{{route('partner.bus.available.loadedit',app()->getLocale() )}}',
+		   data:{_token: CSRF_TOKEN, 'id':id,
+	       			},
+		 //  data:'_token = <?php echo csrf_token() ?>',
+		   success:function(data) {
+		   	console.log(data.html);
+		      $("#editCalendarIntervallumModalBody").html(data.html);
+		   }
+		});
 	}
 	function setNewBAI(id){
 		$("#newBusAvInt").val(id);
@@ -121,7 +134,7 @@
 <div class="modal fade" id="editCalendarIntervallumModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-    	{{--<form method="POST" action="{{route('',app()->getLocale())}}">--}}
+    	<form method="POST" action="{{route('partner.bus.available.edit',app()->getLocale())}}">
     		@csrf
 		    <div class="modal-header">
 		        <h5 class="modal-title" id="exampleModalLabel">{{__('messages.edit')}}</h5>
@@ -129,11 +142,12 @@
 		          <span aria-hidden="true">&times;</span>
 		        </button>
 		    </div>
-		    <div class="modal-body" id="editModalBody">
+		    <div class="modal-body" id="editCalendarIntervallumModalBody">
+
 		    </div>
 		    <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('messages.close')}}</button>
-		        <button class="btn btn-danger">{{__('messages.save')}}</button>
+		        <button class="btn btn-success">{{__('messages.save')}}</button>
 		    </div>
 		</form>
 	</div>

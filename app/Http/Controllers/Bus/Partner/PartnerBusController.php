@@ -250,9 +250,81 @@ class PartnerBusController extends Controller
         return redirect()->back()->with('success',__('messages.savecomplete'));
     }
     public function loadEditAvailable(Request $req){
-
+        $validateDate=$req->validate([
+            'id'=>'required|exists:App\BusAvailable,id',
+            ]);
+        $data['busAvailableType']=BusAvailableType::orderBy('name')->get();
+        $data['available']=BusAvailable::where('id',$req->id)->first();
+        $rdata['html']=view('partner.bus.ajax.editCalendarIntervallum')->with('data',$data)->render();
+        return response()->json($rdata,200);
     }
     public function editAvailable(Request $req){
+        $validateDate=$req->validate([
+            'editAvailable'=>'required|exists:App\BusAvailable,id',
 
+            'fromDate'=>'required|date',
+            'fromTime'=>'nullable|string',
+            'toDate'=>'required|date|after_or_equal:fromDate',
+            'toTime'=>'nullable|string',
+            'available'=>'required|exists:App\BusAvailableType,id|string'
+        ]);
+        $bAv=BusAvailable::where('id',$req->editAvailable)->first();
+        $ch=BusAvailable::
+            where('busid',$bAv->busid)
+            ->where('id','!=',$bAv->id)
+            ->where(function($check)use($req){
+                $check->where(function($query)use($req){
+                    $query->where('date','>=',$req->fromDate)
+                        ->where('date','<',$req->toDate);
+                })
+                ->orWhere(function($query2)use($req){
+                    $query2->where('to_date','>',$req->fromDate)
+                        ->where('to_date','<=',$req->toDate);
+                });
+            })
+            ->count();
+        if($ch>0){
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+               'fromDate' => ['Validation Message #1'],
+               //'field_name_2' => ['Validation Message #2'],
+            ]);
+            throw $error;
+        }
+        $date1=Carbon::createFromDate($req->fromDate);
+        $date2=Carbon::createFromDate($req->toDate);
+
+        $diff=$date2->diffInDays($date1);  
+        BusAvailable::where('id',$req->editAvailable)->update([
+            'date'=>$req->fromDate,
+            'from_time'=>$req->fromTime,
+            'to_time'=>$req->toTime,
+            'to_date'=>$req->toDate,
+            'bus_available_typeid'=>$req->available,
+            //'city'=>
+            'days'=>$diff+1,
+            ]);
+        
+        $first=0;
+        $now=now();
+        $j=0;
+        while ($diff>=$j) {
+            BusAvailableCalendar::updateOrCreate(
+                [
+                    'bus_id'=>$bAv->busid,
+                    'bus_availableid'=>$bAv->id,
+                    'date'=>$date1->format('Y-m-d'),
+                    'year'=>$date1->format('Y'),
+                    'month'=>$date1->format('m'),
+                    'day'=>$date1->format('d'),
+                ],[
+
+                    'bus_available_typeid'=>$req->available,
+                    'updated_at'=>$now
+                ]);
+            $date1->addDay();
+            $j++;
+        }
+        BusAvailableCalendar::where('bus_availableid',$bAv->id)->where('updated_at','<',$now)->delete();
+        return redirect()->back()->with('success',__('messages.savecomplete'));
     }
 }
