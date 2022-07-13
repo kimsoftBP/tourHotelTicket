@@ -199,6 +199,7 @@
 			    	</div>
 
 			    	<div class="col-8 mt-2 row">
+			    		<label>{{__('messages.status')}}</label>
 				    	<select class="form-control col-11 @error('available') is-invalid @enderror" name="available" required>
 				    		<option></option>
 				    		@foreach($data['busAvailableType'] as $row)

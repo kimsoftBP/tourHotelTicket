@@ -23,7 +23,7 @@
 		</nav>
 		<div class="col-7 d-flex  flex-row-reverse">
 			<div>
-				<button onclick="setNewBAI({{$data['bus']->id}})" class="btn btn-info" data-toggle="modal" data-target="#newCalendarIntervallumModal">+</button>
+				<button onclick="setNewBAI({{$data['bus']->id}})" class="btn btn-info" data-toggle="modal" data-target="#newCalendarIntervallumModal">+ {{__('messages.addAvailability')}}</button>
 			</div>
 		</div>
 	</div>

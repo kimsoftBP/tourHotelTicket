@@ -9,6 +9,7 @@ use App\User;
 use App\City;
 use App\LogViewProduct;
 use App\BusCompany;
+use App\Bus;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 
@@ -41,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
                         });
                     })->count();
             $data['destinations']=City::whereHas('products')->count();        
-            $data['bus']=BusCompany::count();
+            $data['bus']=Bus::count();
             //products
             $searchsuggest=LogViewProduct::SelectRaw("*, COUNT('id') as num")
                 ->groupBy('cityid')

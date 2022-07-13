@@ -99,6 +99,14 @@
 								<li class="h4 nav-item active" >
 									<a class="nav-link citiesnavbar" href="{{route('bus.search',app()->getLocale())}}" style="color: #555273;">{{__('messages.bus')}} <span class="sr-only">(current)</span></a>
 								</li>
+								@if(env('APP_ENV')=='local')
+									<li class="h4 nav-item active" >
+										<a class="nav-link citiesnavbar" href="#" style="color: #555273;">{{__('messages.Hotel')}} <span class="sr-only">(current)</span></a>
+									</li>
+									<li class="h4 nav-item active" >
+										<a class="nav-link citiesnavbar" href="#" style="color: #555273;">{{__('messages.Restaurant')}} <span class="sr-only">(current)</span></a>
+									</li>
+								@endif
 								<!--
 								<li class="nav-item active">
 									<a class="nav-link citiesnavbar" href="#">Home <span class="sr-only">(current)</span></a>

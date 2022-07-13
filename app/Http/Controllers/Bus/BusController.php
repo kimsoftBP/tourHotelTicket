@@ -93,7 +93,7 @@ ORDER BY `created_at` DESC
                 })
 
                 ->whereHas('BusCompany',function($queryCompany)use($search,$param){
-                    $queryCompany->where('city',$search['from']); 
+                    $queryCompany->where('city','like','%'.$search['from'].'%'); 
                 })
                 ->groupBy('bus_companyid')
                 ->groupBy('bustypeid')
@@ -148,6 +148,10 @@ ORDER BY `created_at` DESC
             'locale'=>app()->getLocale(),
             ];
          SendBusContactMail::dispatch($details);
+         $details=[
+            'email'=>'tour@kimsoft.at',
+            ];
+        SendBusContactMail::dispatch($details);
          return redirect()->route('bus.search',app()->getLocale())->with('success',__('messages.sendComplete'));
     }
 }

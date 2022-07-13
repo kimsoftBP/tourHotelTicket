@@ -1,5 +1,12 @@
 @extends('view')
 @section('includecontent')
+<title>{{__('page.busSearchTitle')}}</title>
+<meta property="og:title" content="{{__('page.busSearchTitle')}}" />
+<meta property="og:description" content="{{__('page.busSerachDescription')}}"/>
+<meta property="og:url" content="{{url()->current()}}" />
+<meta property="og:site_name" content="{{__('page.sitename')}}" />
+<meta name="robots" content="index, follow" />
+
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -47,10 +54,10 @@ $(function() {
 				<div class="row ">
 					<label class="d-none d-lg-block col-form-label">{{__('messages.from')}}</label>
 					<div class="col-12 col-md-2 col-lg-2">
-						<input class="form-control @error('from') is-invalid @enderror" type="text" name="from" placeholder="{{__('messages.from')}}" required value="{{old('from',$data['search']['from'])}}">
+						<input class="form-control @error('from') is-invalid @enderror" type="text" name="from" placeholder="{{__('messages.City')}}" required value="{{old('from',$data['search']['from'])}}">
 					</div>
 					<label class="d-none d-lg-block col-form-label">{{__('messages.date')}}</label>
-					<div class="d-flex pl-3 pl-md-0">
+					<div class="d-flex pl-2 pr-3">
 						<input class="form-control @error('daterange') is-invalid @enderror" type="text" name="daterange" value="{{old('daterange',$data['search']['range'])}}" autocomplete="off" placeholder="{{__('messages.dateRange')}}" />
 					</div>
 					<label class="d-none d-lg-block col-form-label">{{__('messages.persons')}}</label>
@@ -61,7 +68,22 @@ $(function() {
 				</div>
 			</form>
 	</div>
-
+<div>
+	@if (\Session::has('success'))
+    <div class="alert alert-success">
+        <ul>
+            <li>{!! \Session::get('success') !!}</li>
+        </ul>
+    </div>
+@endif
+@if (\Session::has('error'))
+    <div class="alert alert-danger">
+        <ul>
+            <li>{!! \Session::get('error') !!}</li>
+        </ul>
+    </div>
+@endif
+</div>
 	<div class="mt-3 d-flex justify-content-center">
 		<table class="table">
 			<!--<tr>

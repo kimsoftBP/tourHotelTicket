@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'status'=>'Status',
+	'addAvailability'=>'Add availability',
 	'sendComplete'=>'Send complete',
 	'City'=>'City',
 	'Hotel'=>'Hotel',

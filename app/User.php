@@ -15,15 +15,16 @@ use Illuminate\Database\Eloquent\Model;
 
 
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable //implements MustVerifyEmail
 {
     use Notifiable;
-
+/*
     public function sendEmailVerificationNotification()
     {
         $this->notify(new CustomVerifyEmail);
     //    ...Your Logic Here
     }
+*/    
 
     /**
      * The attributes that are mass assignable.
