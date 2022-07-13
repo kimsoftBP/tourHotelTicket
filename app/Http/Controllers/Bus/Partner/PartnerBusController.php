@@ -28,10 +28,13 @@ class PartnerBusController extends Controller
     }
     public function buses(Request $req){
         $data['user']=Auth::user()->load(['BusCompany']);
-        $data['company']=$data['user']->BusCompany->first();
+        $data['company']=$data['user']->BusPermission->first()->Company;
+        //print_r($data['user']->BusCompany->first());
         //print_r($data['user']);
     //    print_r($data['company']);
     //    print_r($data['user']->BusCompany);
+        //echo $data['user']->id."<br>";
+        //echo $data['company']->id."<br>";
 
         $data['buses']=$data['company']->buses??NULL;
         $data['brand']=BusType::groupBy('brand')->get();

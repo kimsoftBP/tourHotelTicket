@@ -28,6 +28,7 @@ class AddDaysToBusAvailableTable extends Migration
     {
         Schema::table('bus_available', function (Blueprint $table) {
             //
+            $table->dropColumn(['days']);
         });
     }
 }

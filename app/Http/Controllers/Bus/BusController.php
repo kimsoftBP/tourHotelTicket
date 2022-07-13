@@ -11,7 +11,11 @@ use App\BusAvailableType;
 use App\BusCompany;
 use App\BusCompanyPermission;
 use App\BusType;
+use App\BusMessage;
 use Illuminate\Support\Facades\DB;
+
+use App\Jobs\SendBusContactMail;
+use Auth;
 
 class BusController extends Controller
 {
@@ -85,5 +89,52 @@ ORDER BY `created_at` DESC
 //dd(DB::getQueryLog()); 
 
         return view('bus.search')->with('data',$data);
+    }
+
+    public function Contact(Request $req){
+        $validateDate=$req->validate([
+            'from'=>'',
+            'fromdate'=>'',
+            'todate'=>'',
+            'comp'=>'required|exists:App\BusCompany,id',
+            'bustype'=>'required|exists:App\BusType,id',
+            'persons'=>'',
+            ]);
+        $data['company']=BusCompany::where('id',$req->comp)->first();
+        $data['from']=$req->from;
+        $data['fromdate']=$req->fromdate;
+        $data['todate']=$req->todate;
+        $data['BusType']=BusType::where('id',$req->bustype)->first();
+        $data['persons']=$req->persons;
+        return view('bus.contact')->with('data',$data);
+    }
+    public function PostContact(Request $req){
+        $validateDate=$req->validate([
+            'bustype'=>'required|exists:App\BusType,id',
+            'buscomp'=>'required|exists:App\BusCompany,id',
+            'text'=>'required|string',
+            ]);
+        $user=Auth::user();
+        $busCompUser=BusCompany::where('id',$req->buscomp)->first()->users()->first();
+        echo $busCompUser->email;
+        
+        BusMessage::create([
+            'to_mail'=>$busCompUser->email,
+            //'title'=>'',
+            'text'=>$req->text,
+            'to_userid'=>$busCompUser->id,
+            'from_userid'=>$user->id,
+            'bus_companyid'=>$req->buscomp,
+            //'reply_by_bus_messageid'=>'',
+            'bus_typeid'=>$req->bustype,
+            ]);
+        $details = [
+            'email'=>$busCompUser->email,
+            'text'=>$req->text,
+            'user'=>$user,
+            'locale'=>app()->getLocale(),
+            ];
+         SendBusContactMail::dispatch($details);
+        //return redirect()->back()
     }
 }

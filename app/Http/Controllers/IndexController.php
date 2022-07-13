@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Continent;
@@ -499,6 +501,7 @@ class IndexController extends Controller
             'address'=>$req->address,
             'tax_number'=>$req->taxNumber,
         ]);
+      //  event(new Registered($user));
         $permission=PermissionName::where('perm_name','partner')->first();
         $busperm=PermissionName::where('perm_name','partner bus')->first();
         $ticketperm=PermissionName::where('perm_name','partner tour/ticket')->first();

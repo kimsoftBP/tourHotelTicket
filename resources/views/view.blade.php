@@ -28,7 +28,7 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" rel="stylesheet">
-	
+	<link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" >
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script type="text/javascript">
 		setInterval(function() {   
@@ -41,7 +41,7 @@
 			}).fail(function () {
 				alert('Error');
 			});
-		},6*60*1000);  
+		},6*60*100);  
 	</script>
 	<style type="text/css">
 		.js-cookie-consent{
@@ -68,7 +68,7 @@
 		$langs=explode(',',env('AVAILABLE_LOCAL'))
 	@endphp
 
-	<div class="col-xl-12" style="margin:auto;padding:0px">
+	<div class="col-xl-12 " style="margin:auto;padding:0px">
 	@include('cookieConsent::index')
 	<div class="citybackground">
 		<div class="citybackgroundgray">
@@ -143,7 +143,10 @@
 										<a class="nav-link citiesnavbar " href="{{route('login',app()->getLocale())}}">{{__('messages.login')}}</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link citiesnavbar" href="{{route('register',app()->getLocale())}}">{{__('messages.signup')}}</a>
+										<a class="nav-link citiesnavbar" href="{{route('register',app()->getLocale())}}">{{__('messages.usersignup')}}</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link citiesnavbar" href="{{route('partnersignup',app()->getLocale())}}">{{__('messages.suppliersignup')}}</a>
 									</li>
 									@else
 									@php
@@ -249,15 +252,15 @@
 						{{__('messages.rooms')}}
 					</a>-->
 				</div>
-				<div style="padding-top: 30px;">
+				<div style="padding-top: 30px;" class="">
 					@yield('contentbgimg')
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="col-lg-12 " style="margin: auto;">
-		<div style="padding-top: 00px;">
+	<div class="col-lg-12 p-0 " style="margin: auto;">
+		<div style="padding-top: 00px;" class="d-flex justify-content-center">
 			@yield('content')
 		</div>
 	</div>
@@ -317,11 +320,11 @@
 				<div class="col-md-2 mx-auto">
 
 					<!-- Links -->
-					<h5 class="font-weight-bold text-uppercase mt-3 mb-4">{{__('messages.partner')}}</h5>
+					<h5 class="font-weight-bold text-uppercase mt-3 mb-4">{{__('messages.supplier')}}</h5>
 
 					<ul class="list-unstyled">
 						<li>
-							<a href="{{route('partnersignup',app()->getLocale())}}">{{__('messages.signup')}}</a>
+							<a href="{{route('partnersignup',app()->getLocale())}}">{{__('messages.registration')}}</a>
 						</li>
 						<li>
 							<a href="{{route('partner.product',app()->getLocale() )}}">{{__('messages.footerpartnerupload')}}</a>

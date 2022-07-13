@@ -28,7 +28,7 @@ class AddTaxNumberAddressPoscodeToBusCompanyTable extends Migration
     public function down()
     {
         Schema::table('bus_company', function (Blueprint $table) {
-            $table->dropColumn(['name','postcode','address','tax_number']);
+            $table->dropColumn(['postcode','address','tax_number']);
         });
     }
 }

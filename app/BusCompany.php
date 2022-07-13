@@ -23,4 +23,16 @@ class BusCompany extends Model
     public function permission(){
         return $this->hasMany('App\BusCompanyPermission','bus_companyid','id');
     }
+
+    public function users(){
+        //return $this->hasMany('App\BusCompany','id','')
+        return $this->hasManyThrough(
+            'App\User',//1st table
+            'App\BusCompanyPermission',
+            'bus_companyid',//foreign key on 2st table
+            'id',//Foreign key on 1st table 
+            'id',//Local Key on buscom table
+            'userid',//Local Key on 2st table
+            );//need get or first
+    }
 }

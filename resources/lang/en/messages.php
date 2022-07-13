@@ -1,6 +1,10 @@
 <?php
 
 return [
+	'registration'=>'Registration',
+	'usersignup'=>'User registration',
+	'suppliersignup'=>'Supplier registration',
+	'supplier'=>'supplier',
 	'new'=>'New',
 	'edit'=>'Edit',
 	'Available'=>'Available',
@@ -239,8 +243,8 @@ return [
 	/**/
 
 	'introduce'=>'Introduce',
-	'aboutus'=>'aboutus',
-	'announcement'=>'announcement',
+	'aboutus'=>'Aboutus',
+	'announcement'=>'Announcement',
 	'support'=>'Support',
 	'partner'=>'Partner',
 

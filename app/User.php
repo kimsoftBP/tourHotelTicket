@@ -11,6 +11,8 @@ use Illuminate\Notifications\Notifiable;
 use App\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+
 
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -184,9 +186,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\City','id','cityid');
     }
 
-
+    public function BusPermission(){
+        return $this->hasMany('App\BusCompanyPermission','userid','id');
+    }
     public function BusCompany(){
         //return $this->hasMany('App\BusCompany','id','')
+
+/*
+** Problem sometime not return data
+
         return $this->hasManyThrough(
             'App\BusCompany',
             'App\BusCompanyPermission',
@@ -195,8 +203,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'id',//Local Key on Users table
             'userid',//Local Key on BusCompanyPermission table
             );
+        */
     }
     /***
+     * 
+     * 
      return $this->hasManyThrough(
             Deployment::class,
             Environment::class,

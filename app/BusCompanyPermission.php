@@ -14,4 +14,10 @@ class BusCompanyPermission extends Model
         'userid','bus_companyid',
         'created_at','updated_at',
         ];
+    public function User(){
+        return $this->hasOne('App\User','id','userid');
+    }
+    public function Company(){
+        return $this->hasOne('App\BusCompany','id','bus_companyid');
+    }
 }

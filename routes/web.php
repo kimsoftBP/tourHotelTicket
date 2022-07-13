@@ -61,6 +61,7 @@ Route::group([
   'where' => ['locale' => '[a-zA-Z]{2}'], 
   'middleware' => 'setlocale'], function() {
 
+
   	Route::get('/','IndexController@index')->name('index');
   	Route::get('/cities/{slug}','IndexController@cities')->name('cities');
   	Route::get('/regions','RegionController@index')->name('region');
@@ -76,12 +77,18 @@ Route::group([
   	Route::group(['prefix'=>'bus'],function(){
   		Route::get('/','Bus\BusController@search')->name('bus.search');
   	});
+//'middleware'=>'verified'
+	Route::group(['middleware'=>'auth' ], function () {
+		Route::group(['prefix'=>'bus'],function(){
+			Route::get('contact','Bus\BusController@Contact')->name('bus.customer.message');
+			Route::post('contact','Bus\BusController@PostContact')->name('bus.customer.message.post');
+		});
 
-	Route::group(['middleware'=>'verified','middleware'=>'auth' ], function () {
+
 		Route::get('/verifycomplete','User\UserController@verifycomplete')->name('user.verifycomplete');
 		Route::get('/order','User\UserController@orders')->name('user.orders');
 
-		Route::get('/account','User\UserController@account')->name('account')->middleware('verified');
+		Route::get('/account','User\UserController@account')->name('account');
 		Route::get('/account/edit','User\UserController@edit')->name('account.edit');
 		Route::post('/account/edit','User\UserController@postedit')->name('account.edit');
 		Route::get('/account/changepassword','User\UserController@changepassword')->name('account.changepassword');
@@ -178,9 +185,10 @@ Route::group([
 	});
 	
 	Auth::routes();
-	Auth::routes(['verify' => true]);
+//	Auth::routes(['verify' => true]);
 
 	//Route::get('/home', 'HomeController@index')->name('home');
+
 });
 
 //

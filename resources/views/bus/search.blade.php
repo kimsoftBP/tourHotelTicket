@@ -41,30 +41,33 @@ $(function() {
 --}}
 @endsection
 @section('content')
-<div class="col-lg-10">
-	<form>
-		<div class="row">
-			<label class="d-none d-lg-block col-form-label">{{__('messages.from')}}</label>
-			<div class="col-12 col-md-2 col-lg-2">
-				<input class="form-control @error('from') is-invalid @enderror" type="text" name="from" placeholder="{{__('messages.from')}}" required value="{{old('from',$data['search']['from'])}}">
-			</div>
-			<label class="d-none d-lg-block col-form-label">{{__('messages.date')}}</label>
-			<div class="d-flex pl-3 pl-md-0">
-				<input class="form-control @error('daterange') is-invalid @enderror" type="text" name="daterange" value="{{old('daterange',$data['search']['range'])}}" autocomplete="off" placeholder="{{__('messages.dateRange')}}" />
-			</div>
-			<label class="d-none d-lg-block col-form-label">{{__('messages.persons')}}</label>
-			<div class="col-5 col-md-2 col-lg-1">
-				<input type="number" name="persons" class="form-control @error('persons') is-invalid @enderror" placeholder="{{__('messages.persons')}}" min="1" required value="{{old('persons',$data['search']['persons'])}}">
-			</div>
-			<button class="btn ">{{__('messages.search')}}</button>
-		</div>
-	</form>
+<div class="col-lg-10 " style="clear:both">
+	<div class="col-12 p-0">
+			<form>
+				<div class="row ">
+					<label class="d-none d-lg-block col-form-label">{{__('messages.from')}}</label>
+					<div class="col-12 col-md-2 col-lg-2">
+						<input class="form-control @error('from') is-invalid @enderror" type="text" name="from" placeholder="{{__('messages.from')}}" required value="{{old('from',$data['search']['from'])}}">
+					</div>
+					<label class="d-none d-lg-block col-form-label">{{__('messages.date')}}</label>
+					<div class="d-flex pl-3 pl-md-0">
+						<input class="form-control @error('daterange') is-invalid @enderror" type="text" name="daterange" value="{{old('daterange',$data['search']['range'])}}" autocomplete="off" placeholder="{{__('messages.dateRange')}}" />
+					</div>
+					<label class="d-none d-lg-block col-form-label">{{__('messages.persons')}}</label>
+					<div class="col-5 col-md-2 col-lg-1">
+						<input type="number" name="persons" class="form-control @error('persons') is-invalid @enderror" placeholder="{{__('messages.persons')}}" min="1" required value="{{old('persons',$data['search']['persons'])}}">
+					</div>
+					<button class="btn ">{{__('messages.search')}}</button>
+				</div>
+			</form>
+	</div>
 
-	<div>
+	<div class="mt-3 d-flex justify-content-center">
 		<table class="table">
-			<tr>
+			<!--<tr>
 				<th></th>
 			</tr>
+		-->
 			@php
 				$lastCompanyid=NULL;
 			@endphp
@@ -79,7 +82,11 @@ $(function() {
 						@endif
 						<td>{{$row->BusType->brand}} {{$row->BusType->name}}</td>
 						<td>{{$row->passenger_seats}}</td>
-
+						<td>
+							<a class="btn btn-sm btn-primary" href="{{route('bus.customer.message',['locale'=>app()->getLocale(),'from'=>$data['search']['from'],'fromdate'=>$data['search']['fromdate'],'todate'=>$data['search']['todate'],'comp'=>$row->BusCompany->id,'bustype'=>$row->bustype,'persons'=>$data['search']['persons'] ])}}">
+							<i class="bi bi-envelope-plus-fill"></i>
+							</a>
+						</td>
 					</tr>
 					@php
 						$lastCompanyid=$row->bus_companyid;
