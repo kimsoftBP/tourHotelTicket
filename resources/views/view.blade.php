@@ -78,9 +78,9 @@
 						<button class="navbar-toggler citiesnavbar" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
-						<a class="navbar-brand citiesnavbar" href="{{route('index',app()->getLocale())}}">
-							<!--{{env('APP_NAME')}} -->
-							<img src="{{asset('img/logo/logo_transparent3.png')}}" style="max-height: 40px; max-width:220px">
+						<a class="navbar-brand citiesnavbar font-weight-bold" href="{{route('index',app()->getLocale())}}" style="color: #555273;">
+							{{env('APP_NAME')}}
+							<!--<img src="{{asset('img/logo/logo_transparent3.png')}}" style="max-height: 40px; max-width:220px">-->
 						</a>
 
 						<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
