@@ -16,7 +16,7 @@ class CreateLogBusSearchTable extends Migration
         Schema::create('log_bus_search', function (Blueprint $table) {
             $table->id();
             $table->string('sessionid');
-            $table->string('ip');
+            $table->string('ip')->nullable();
             $table->integer('persons')->nullable();
             $table->date('from_date')->nullable();
             $table->date('to_date')->nullable();

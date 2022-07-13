@@ -27,7 +27,7 @@ class PartnerBusController extends Controller
         return view('partner.bus.dashboard');
     }
     public function buses(Request $req){
-        $data['user']=Auth::user()->load(['BusCompany']);
+        $data['user']=Auth::user();//->load(['BusCompany']);
         $data['company']=$data['user']->BusPermission->first()->Company;
         //print_r($data['user']->BusCompany->first());
         //print_r($data['user']);

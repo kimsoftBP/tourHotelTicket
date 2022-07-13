@@ -79,7 +79,7 @@
 							<span class="navbar-toggler-icon"></span>
 						</button>
 						<a class="navbar-brand citiesnavbar font-weight-bold" href="{{route('index',app()->getLocale())}}" style="color: #555273;">
-							{{env('APP_NAME')}}
+							<span style="    font-size: xx-large;">{{env('APP_NAME')}}</span>
 							<!--<img src="{{asset('img/logo/logo_transparent3.png')}}" style="max-height: 40px; max-width:220px">-->
 						</a>
 
@@ -218,9 +218,12 @@
 				</div>
 				<div class="citiesnavbar" style="">
 					<b>
+					<!--
 						{{$shareddata['guides'] ?? '?'}} {{__('messages.guides')}}
 						{{$shareddata['tours'] ?? '?'}} {{__('messages.tours')}}
 						{{$shareddata['destinations'] ?? '?'}} {{__('messages.destinations')}}
+					-->
+						{{$shareddata['bus']??'?'}} {{__('messages.bus')}}
 					</b>
 				</div>
 				<div>
@@ -435,7 +438,7 @@
 		<!-- Social buttons -->
 --}}
 		<!-- Copyright -->
-		<div class="footer-copyright text-center py-3">© 2020 Copyright:
+		<div class="footer-copyright text-center py-3">© {{now()->year}} Copyright:
 			<a href=""></a>
 		</div>
 		<!-- Copyright -->

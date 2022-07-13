@@ -12,6 +12,7 @@ use App\BusCompany;
 use App\BusCompanyPermission;
 use App\BusType;
 use App\BusMessage;
+use App\LogBusSearch;
 use Illuminate\Support\Facades\DB;
 
 use App\Jobs\SendBusContactMail;
@@ -33,11 +34,23 @@ class BusController extends Controller
         $search['persons']=$req->persons??1;
         $search['range']=$req->daterange;
 
+        $sessionid=session()->getId();
+        if($search['from']!=NULL){
+            LogBusSearch::create([
+                'sessionid'=>$sessionid,
+                'persons'=>$search['persons'],
+                'from_date'=>$search['fromdate'],
+                'to_date'=>$search['todate'],
+                'from'=>$search['from'],
+                ]);
+        }
+
         $data['brand']=BusType::groupBy('brand')->orderby('brand')->get();
         $data['search']=$search;
         //DB::enableQueryLog(); 
         //$param['pending']=BusAvailableType::where('name','Pending')->first()->id;
         $param['available']=BusAvailableType::where('name','Available')->first()->id;
+
         $data['bus']=Bus::
                 with(['BusType','BusCompany','availableCalendar'])
                 ->where('passenger_seats','>=',$search['persons'])
@@ -120,7 +133,7 @@ ORDER BY `created_at` DESC
         
         BusMessage::create([
             'to_mail'=>$busCompUser->email,
-            //'title'=>'',
+            'title'=>$req->title??'',
             'text'=>$req->text,
             'to_userid'=>$busCompUser->id,
             'from_userid'=>$user->id,
@@ -135,6 +148,6 @@ ORDER BY `created_at` DESC
             'locale'=>app()->getLocale(),
             ];
          SendBusContactMail::dispatch($details);
-        //return redirect()->back()
+         return redirect()->route('bus.search',app()->getLocale())->with('success',__('messages.sendComplete'));
     }
 }

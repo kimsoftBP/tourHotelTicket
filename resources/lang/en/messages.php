@@ -1,6 +1,10 @@
 <?php
 
 return [
+	'sendComplete'=>'Send complete',
+	'City'=>'City',
+	'Hotel'=>'Hotel',
+	'Restaurant'=>'Restaurant',
 	'indexPageText'=>'Are you Bus, Hotel, Restaurant Owner? Register & Work with us!',
 	'WhatDoYouSearch'=>'What do you search?',
 	'registration'=>'Registration',
@@ -13,7 +17,7 @@ return [
 	'Pending'=>'Pending',
 	'Reserved'=>'Reserved',
 
-	'persons'=>'persons',
+	'persons'=>'Persons',
 	'dateRange'=>'Date range',
 	'calendar'=>'Calendar',
 	'companyName'=>'company name',

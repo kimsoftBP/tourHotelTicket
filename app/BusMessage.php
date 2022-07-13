@@ -11,7 +11,7 @@ class BusMessage extends Model
     protected $primaryKey="id";
     protected $fillable=[
         'id',
-        'mail','title','text','to_userid','from_userid',
+        'to_mail','title','text','to_userid','from_userid','bus_companyid','reply_by_bus_messageid','bus_typeid',
         'created_at','updated_at',
         ];
 

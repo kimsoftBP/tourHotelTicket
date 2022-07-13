@@ -12,7 +12,14 @@ class LogBusSearch extends Model
     protected $fillable=[
         'id',
         'sessionid','ip','persons','from_date','to_date',
-        'created_at','updated_at'
+        'created_at','updated_at','from',
         ];
+
+    public function log(){
+        return $this->hasMany('App\Log','sessionid','sessionid');
+    }
+    public function logsearch(){
+        return $this->hasOne('App\LogSearch','sessionid','sessionid');
+    }
 }
 

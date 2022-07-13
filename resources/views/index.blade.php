@@ -49,7 +49,7 @@
 		overflow: hidden;
 	}
 </style>
-
+ 
 
 @endsection
 @section('content')
