@@ -86,7 +86,7 @@
 						<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 
 
-							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+							<ul class="navbar-nav mr-auto mt-2 rmt-lg-0">
 
 								{{--
 								<li>
@@ -96,8 +96,8 @@
 										<!--<button>Bus search</button>-->
 									</form>	
 								</li>--}}
-								<li class="nav-item active">
-									<a class="nav-link citiesnavbar" href="{{route('bus.search',app()->getLocale())}}">{{__('messages.bus')}} <span class="sr-only">(current)</span></a>
+								<li class="h4 nav-item active" >
+									<a class="nav-link citiesnavbar" href="{{route('bus.search',app()->getLocale())}}" style="color: #555273;">{{__('messages.bus')}} <span class="sr-only">(current)</span></a>
 								</li>
 								<!--
 								<li class="nav-item active">

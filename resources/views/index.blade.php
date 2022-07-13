@@ -56,8 +56,9 @@
 <div class="col-lg-10" style="margin: auto;">
 	<div class="" style="margin-bottom: 30px; height: 100px">
 		<div class="float-left">
-			<h2 class="font-weight-bold">{{__('messages.WhereAreYouGoing')}}</h2>
+			<h2 class="font-weight-bold">{{__('messages.WhatDoYouSearch')}}</h2>
 		</div>
+		<!--
 		<div class="float-right">
 			<a class="btn btn-light border" href="{{route('region',app()->getLocale())}}">
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-diamond-fill" viewBox="0 0 16 16">
@@ -66,7 +67,7 @@
 				<span class="" style="font-size: 20px;">{{__('messages.wholeCity')}}</span>
 			</a>
 			<br><br>
-		</div>
+		</div>-->
 	</div>
 	
 	<div id="carouselExampleControls" class="carousel slide carouselmobile" data-ride="carousel" style="margin-top: 30px;">
@@ -583,7 +584,7 @@
 		-->
 
 		<div class=" pt-5">
-			<h2>{{__('messages.')}}</h2>
+			<h2>{{__('messages.indexPageText')}}</h2>
 		</div>
 	</div>
 

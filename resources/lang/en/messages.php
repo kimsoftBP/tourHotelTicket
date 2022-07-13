@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'indexPageText'=>'Are you Bus, Hotel, Restaurant Owner? Register & Work with us!',
+	'WhatDoYouSearch'=>'What do you search?',
 	'registration'=>'Registration',
 	'usersignup'=>'User registration',
 	'suppliersignup'=>'Supplier registration',
@@ -12,7 +14,7 @@ return [
 	'Reserved'=>'Reserved',
 
 	'persons'=>'persons',
-	'dateRange'=>'date range',
+	'dateRange'=>'Date range',
 	'calendar'=>'Calendar',
 	'companyName'=>'company name',
 	'postCode'=>'postcode',

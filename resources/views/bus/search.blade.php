@@ -57,7 +57,7 @@ $(function() {
 					<div class="col-5 col-md-2 col-lg-1">
 						<input type="number" name="persons" class="form-control @error('persons') is-invalid @enderror" placeholder="{{__('messages.persons')}}" min="1" required value="{{old('persons',$data['search']['persons'])}}">
 					</div>
-					<button class="btn ">{{__('messages.search')}}</button>
+					<button class="btn btn-primary">{{__('messages.search')}}</button>
 				</div>
 			</form>
 	</div>
