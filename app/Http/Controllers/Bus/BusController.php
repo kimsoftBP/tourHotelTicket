@@ -134,7 +134,7 @@ ORDER BY `created_at` DESC
             ]);
         $user=Auth::user();
         $busCompUser=BusCompany::where('id',$req->buscomp)->first()->users()->first();
-        echo $busCompUser->email;
+    //    echo $busCompUser->email;
         
         BusMessage::create([
             'to_mail'=>$busCompUser->email,
@@ -154,9 +154,7 @@ ORDER BY `created_at` DESC
             'locale'=>app()->getLocale(),
             ];
          SendBusContactMail::dispatch($details);
-         $details=[
-            'email'=>'tour@kimsoft.at',
-            ];
+         $details['email']='tour@kimsoft.at';
         SendBusContactMail::dispatch($details);
          return redirect()->route('bus.search',app()->getLocale())->with('success',__('messages.busContactSendSuccess'));
     }

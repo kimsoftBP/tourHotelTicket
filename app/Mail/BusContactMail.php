@@ -29,7 +29,7 @@ class BusContactMail extends Mailable
     public function build()
     {
       return $this->from('tour@kimsoft.at', config('app.name'))
-            ->subject( config('app.name').' '.$data['title']??'')
+            ->subject( config('app.name').' '.$this->data['title']??'')
             ->view('emails.busContact');
     }
 }

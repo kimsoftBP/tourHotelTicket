@@ -193,7 +193,7 @@ Route::group([
 
 //
 	//Auth::routes();
-Route::get('refresh-csrf', function(){     
+Route::any('refresh-csrf', function(){     
   return csrf_token(); 
 }); 
 
