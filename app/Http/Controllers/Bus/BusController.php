@@ -116,6 +116,11 @@ ORDER BY `created_at` DESC
         $data['company']=BusCompany::where('id',$req->comp)->first();
         $data['from']=$req->from;
         $data['fromdate']=$req->fromdate;
+        $t=BusCompany::where('city','like','%'.$req->from.'%')->groupBy('city')->get();
+        $data['messageFrom']='';
+        if(count($t)==1){
+            $data['messageFrom']=$t->first()->city;
+        }
         $data['todate']=$req->todate;
         $data['BusType']=BusType::where('id',$req->bustype)->first();
         $data['persons']=$req->persons;
@@ -144,6 +149,7 @@ ORDER BY `created_at` DESC
         $details = [
             'email'=>$busCompUser->email,
             'text'=>$req->text,
+            'title'=>$req->title??'',
             'user'=>$user,
             'locale'=>app()->getLocale(),
             ];
@@ -152,6 +158,6 @@ ORDER BY `created_at` DESC
             'email'=>'tour@kimsoft.at',
             ];
         SendBusContactMail::dispatch($details);
-         return redirect()->route('bus.search',app()->getLocale())->with('success',__('messages.sendComplete'));
+         return redirect()->route('bus.search',app()->getLocale())->with('success',__('messages.busContactSendSuccess'));
     }
 }

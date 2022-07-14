@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'contactMessage'=>'We need a bus from :from between :fromdate and :todate for :people people',
+	'busContactSendSuccess'=>'Send complete, Supplier reply to you soon',
 	'status'=>'Status',
 	'addAvailability'=>'Add availability',
 	'sendComplete'=>'Send complete',
