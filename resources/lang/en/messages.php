@@ -1,6 +1,11 @@
 <?php
 
 return [
+	'addRoom'=>'add room',
+	'maximumPeople'=>'maximum people',
+	'hotel'=>'Hotel',
+
+
 	'contactMessage'=>'We need a bus from :from between :fromdate and :todate for :people people',
 	'busContactSendSuccess'=>'Send complete, Supplier reply to you soon',
 	'status'=>'Status',

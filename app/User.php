@@ -84,7 +84,34 @@ class User extends Authenticatable //implements MustVerifyEmail
         return true;
     }
 
-
+    /**
+     * Restaurnat
+     * */
+    public function permPartnerRestaurant(){
+        $perm=Permission::where('userid',$this->id)
+            ->whereHas('permissionName',function(Builder $query){
+                $query->whereRaw('perm_name like "partner Restaurant"');
+            })
+            ->get();
+        if($perm==NULL || count($perm)==0){
+            return false;
+        }
+        return true;
+    }
+    /***
+     * Hotel
+     * */
+    public function permPartnerHotel(){
+        $perm=Permission::where('userid',$this->id)
+            ->whereHas('permissionName',function(Builder $query){
+                $query->whereRaw('perm_name like "partner Hotel"');
+            })
+            ->get();
+        if($perm==NULL || count($perm)==0){
+            return false;
+        }
+        return true;
+    }
     /***
      * bus
      * */
@@ -218,4 +245,11 @@ class User extends Authenticatable //implements MustVerifyEmail
             'id' // Local key on the environments table...
         );
      * **/
+    public function HotelCompanyPermission(){
+        return $this->hasMany('App\HotelCompanyPermission','userid','id');
+    }
+    /*
+    public function restaurant(){
+        return $this->hasMany('App\Restaurant','userid','id')->first()->Restaurant;
+    }*/
 }

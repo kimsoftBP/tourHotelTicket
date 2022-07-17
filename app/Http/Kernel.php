@@ -73,7 +73,8 @@ class Kernel extends HttpKernel
         'authpartner'=>\App\Http\Middleware\Authpartner::class,
         'authbus'=>\App\Http\Middleware\AuthBus::class,
         'authtourticket'=>\App\Http\Middleware\AuthTourTicket::class,
-        
+        'authhotel'=>\App\Http\Middleware\AuthHotel::class,
+        'authrestaurant'=>\App\Http\Middleware\AuthRestaurant::class,
         'permadmin'=>\App\Http\Middleware\PermAdmin::class,
         'permadminorcontinentadmin'=>\App\Http\Middleware\PermAdminOrPermContinentAdmin::class,
         

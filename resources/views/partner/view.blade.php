@@ -122,7 +122,26 @@
 		        </ul>
 		      </li>	
 		    @endif
-
+		    @if(Auth::user()->permPartnerHotel())
+		    	<li class="">
+  					<a href="#HotelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{__('messages.hotel')}}</a>
+  					<ul class="collapse list-unstyled" id="HotelSubmenu">
+		        	<li>        		
+		        		<a href="{{route('partner.hotel.index',app()->getLocale())}}">{{__('messages.')}}</a>        		
+		        	</li>
+		        </ul>
+		      </li>	
+		    @endif
+		    @if(Auth::user()->permPartnerRestaurant())
+		    	<li class="">
+  					<a href="#RestaurantSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{__('messages.Restaurant')}}</a>
+  					<ul class="collapse list-unstyled" id="RestaurantSubmenu">
+		        	<li>        		
+		        		<a href="{{route('partner.restaurant.index',app()->getLocale())}}">{{__('messages.')}}</a>        		
+		        	</li>
+		        </ul>
+		      </li>	
+		    @endif
           <li>
           	<a class="" href="{{route('account',app()->getLocale())}}">{{__('messages.profilemanagemant')}}</a>
           </li>

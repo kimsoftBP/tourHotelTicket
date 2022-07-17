@@ -28,6 +28,10 @@ use App\Advertising;
 use App\BusCompany;
 use App\BusCompanyPermission;
 
+use App\Hotel;
+use App\HotelCompany;
+use App\HotelCompanyPermission;
+
 class IndexController extends Controller
 {
     public function index(){
@@ -471,7 +475,8 @@ class IndexController extends Controller
     public function partnersignup(){
         $data['p_list']=[
                 'tourorticket',
-                'bus'];
+                'bus',
+                'hotel'];
         $data['country']=Country::get();
         return view('partner.signup')->with('data',$data);
     }
@@ -505,6 +510,8 @@ class IndexController extends Controller
         $permission=PermissionName::where('perm_name','partner')->first();
         $busperm=PermissionName::where('perm_name','partner bus')->first();
         $ticketperm=PermissionName::where('perm_name','partner tour/ticket')->first();
+        $hotelperm=PermissionName::where('perm_name','partner Hotel')->first();
+        $restaurantperm=PermissionName::where('perm_name','partner Restaurant')->first();
 
        // Permission::create(['userid'=>$user->id,'permid'=>$permission->id]);
         if(strtolower($req->category)=='bus'){
@@ -521,6 +528,22 @@ class IndexController extends Controller
                     'userid'=>$user->id,
                     'bus_companyid'=>$buscompany->id,
                     ]);
+        }
+        if(strtolower($req->category)=="hotel"){
+            Permission::create(['userid'=>$user->id,'permid'=>$hotelperm->id]);
+            $hotelcomp=HotelCompany::create([
+                    'name'=>$req->companyName,
+                    'postcode'=>$req->postcode,
+                    'address'=>$req->address,
+                    'tax_number'=>$req->taxNumber,
+                    'countryid'=>$req->country,
+                    'city'=>$req->city,                
+                ]);
+            HotelCompanyPermission::create(['userid'=>$user->id,'hotel_companyid'=>$hotelcomp->id ]);
+        }
+        if(strtolower($req->category)=='restaurant'){
+            Permission::create(['userid'=>$user->id,'permid'=>$restaurantperm->id]);
+
         }
         if(strtolower($req->category)=='tourorticket'){
             Permission::create(['userid'=>$user->id,'permid'=>$ticketperm->id]);

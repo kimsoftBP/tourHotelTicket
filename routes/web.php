@@ -142,6 +142,18 @@ Route::group([
 				Route::post('/buses/available/loadedit','Bus\Partner\PartnerBusController@loadEditAvailable')->name('partner.bus.available.loadedit');
 				Route::post('/buses/available/edit','Bus\Partner\PartnerBusController@editAvailable')->name('partner.bus.available.edit');
 			});
+			/****
+			 * Hotel partner
+			 * **/
+			Route::group(['middleware'=>'authhotel','prefix'=>'hotel'],function(){
+				Route::get('/','Hotel\Partner\PartnerHotelController@index')->name('partner.hotel.index');
+			});
+			/****
+			 * Restaurnat partner
+			 * **/
+			Route::group(['middleware'=>'authrestaurant','prefix'=>'restaurant'],function(){
+				Route::get('/','Restaurant\Partner\PartnerRestaurantController@index')->name('partner.restaurant.index');
+			});
 		});
 		
 		/**
