@@ -540,6 +540,13 @@ class IndexController extends Controller
                     'city'=>$req->city,                
                 ]);
             HotelCompanyPermission::create(['userid'=>$user->id,'hotel_companyid'=>$hotelcomp->id ]);
+            Hotel::create([
+                    'name'=>$req->companyName,
+                    'city'=>$req->city,
+                    'address'=>$req->address,
+                    'countryid'=>$req->country,
+                    'hotel_companyid'=>$hotelcomp->id,
+                ]);
         }
         if(strtolower($req->category)=='restaurant'){
             Permission::create(['userid'=>$user->id,'permid'=>$restaurantperm->id]);

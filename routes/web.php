@@ -73,16 +73,40 @@ Route::group([
 
   	Route::get('/partnersignup','IndexController@partnersignup')->name('partnersignup');
   	Route::post('/partnersignup','IndexController@postpartnersignup')->name('partnersignup');
-
+  	/***
+  	 * Bus search
+  	 * **/
   	Route::group(['prefix'=>'bus'],function(){
   		Route::get('/','Bus\BusController@search')->name('bus.search');
   	});
+  	/***
+  	 * Hotel search
+  	 * **/
+  	Route::group(['prefix'=>'hotel'],function(){
+  		Route::get('/','Hotel\HotelController@search')->name('hotel.search');
+  	});
+  	/***
+  	 * Restaurant search
+  	 * **/
+  	Route::group(['prefix'=>'restaurant'],function(){
+  		Route::get('/','Restaurant\RestaurantController@serach')->name('restaurant.search');
+  	});
 //'middleware'=>'verified'
 	Route::group(['middleware'=>'auth' ], function () {
+		/***
+		 * Bus contact
+		 * **/
 		Route::group(['prefix'=>'bus'],function(){
 			Route::get('contact','Bus\BusController@Contact')->name('bus.customer.message');
 			Route::post('contact','Bus\BusController@PostContact')->name('bus.customer.message.post');
 		});
+		/**
+		 * hotel contact
+		 * **/
+
+		/**
+		 * restaurant contacct
+		 * **/
 
 
 		Route::get('/verifycomplete','User\UserController@verifycomplete')->name('user.verifycomplete');
@@ -147,12 +171,19 @@ Route::group([
 			 * **/
 			Route::group(['middleware'=>'authhotel','prefix'=>'hotel'],function(){
 				Route::get('/','Hotel\Partner\PartnerHotelController@index')->name('partner.hotel.index');
+				Route::post('/room/delete','Hotel\Partner\PartnerHotelController@deleteRoom')->name('partner.hotel.room.delete');
+				Route::post('/room/add','Hotel\Partner\PartnerHotelController@addRoom')->name('partner.hotel.room.add');
+				Route::post('/room/getEdit','Hotel\Partner\PartnerHotelController@editRoom')->name('partner.hotel.room.edit');
+				Route::post('/room/edit','Hotel\Partner\PartnerHotelController@postEditRoom')->name('partner.hotel.room.postedit');
+				Route::any('/room/getAvailable','Hotel\Partner\PartnerHotelController@getAvailable')->name('partner.hotel.room.getcalendar');
+				Route::post('/room/available','Hotel\Partner\PartnerHotelController@available')->name('partner.hotel.room.postcalendar');
 			});
 			/****
 			 * Restaurnat partner
 			 * **/
 			Route::group(['middleware'=>'authrestaurant','prefix'=>'restaurant'],function(){
 				Route::get('/','Restaurant\Partner\PartnerRestaurantController@index')->name('partner.restaurant.index');
+
 			});
 		});
 		

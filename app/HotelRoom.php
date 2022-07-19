@@ -17,4 +17,10 @@ class HotelRoom extends Model
     public function hotel(){
         return $this->hasOne('App\Hotel','id','hotelid');
     }
+    public function available(){
+        return $this->hasMany('App\HotelRoomAvailable','hotel_roomid','id');
+    }
+    public function availableDate($date){
+        return $this->available->where('date','like',$date);
+    }
 }

@@ -1,6 +1,15 @@
 <?php
 
 return [
+'hotelSearchTitle'=>'',
+'hotelSearchDescription'=>'',
+
+	'available'=>'available',
+	'room'=>'Room',
+	'editroom'=>'Edit room',
+	'maximumPeople/room'=>'maximum people/room',
+	'people'=>'People',
+	'deleteRoom'=>'Delete Room',
 	'addRoom'=>'add room',
 	'maximumPeople'=>'maximum people',
 	'hotel'=>'Hotel',

@@ -127,7 +127,7 @@
   					<a href="#HotelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{__('messages.hotel')}}</a>
   					<ul class="collapse list-unstyled" id="HotelSubmenu">
 		        	<li>        		
-		        		<a href="{{route('partner.hotel.index',app()->getLocale())}}">{{__('messages.')}}</a>        		
+		        		<a href="{{route('partner.hotel.index',app()->getLocale())}}">{{__('messages.room')}}</a>        		
 		        	</li>
 		        </ul>
 		      </li>	
