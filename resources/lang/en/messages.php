@@ -3,7 +3,7 @@
 return [
 'hotelSearchTitle'=>'',
 'hotelSearchDescription'=>'',
-
+'hotelContactSendSuccess'=>'Send complete, Supplier reply to you soon',
 	'available'=>'available',
 	'room'=>'Room',
 	'editroom'=>'Edit room',

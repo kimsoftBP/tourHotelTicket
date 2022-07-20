@@ -103,10 +103,17 @@ Route::group([
 		/**
 		 * hotel contact
 		 * **/
-
+		Route::group(['prefix'=>'hotel'],function(){
+			Route::get('contact','Hotel\HotelController@Contact')->name('hotel.customer.message');
+			Route::post('contact','Hotel\HotelController@PostContact')->name('hotel.customer.message.post');
+		});
 		/**
 		 * restaurant contacct
 		 * **/
+		Route::group(['prefix'=>'restaurnat'],function(){
+			Route::get('contact','Restaurant\RestaurantController@Contact')->name('restaurant.message');
+			Route::post('contact','Restaurant\RestaurantController@PostContact')->name('restaurant.message.post');
+		});
 
 
 		Route::get('/verifycomplete','User\UserController@verifycomplete')->name('user.verifycomplete');

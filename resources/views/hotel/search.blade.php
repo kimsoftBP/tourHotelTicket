@@ -92,7 +92,7 @@ $(function() {
 						<td>{{$row->country->name}}</td>
 						<td>{{$row->city}}</td>
 						<td>
-							<a class="btn btn-sm btn-primary" href="{{route('hotel.customer.message',['locale'=>app()->getLocale(),'from'=>$data['search']['from'],'fromdate'=>$data['search']['fromdate'],'todate'=>$data['search']['todate'],'hot'=>$row->id,'persons'=>$data['search']['persons'] ])}}">
+							<a class="btn btn-sm btn-primary" href="{{route('hotel.customer.message',['locale'=>app()->getLocale(),'from'=>$data['search']['from'],'fromdate'=>$data['search']['fromdate'],'todate'=>$data['search']['todate'],'comp'=>$row->id,'persons'=>$data['search']['persons'] ])}}">
 							<i class="bi bi-envelope-plus-fill"></i>
 							</a>
 						</td>
