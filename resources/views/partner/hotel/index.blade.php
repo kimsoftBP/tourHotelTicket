@@ -11,7 +11,7 @@
 		 $.ajax({
 		   type:'post',
 		   url:'{{route('partner.hotel.room.edit', app()->getLocale())}}',
-		   data:{_token: CSRF_TOKEN, "rid":id
+		   data:{_token: CSRF_TOKEN, "menu":id
 	       			},
 		 //  data:'_token = <?php echo csrf_token() ?>',
 		   success:function(data) {

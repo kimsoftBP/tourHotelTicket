@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'restaurant'=>'Restaurant',
 'hotelSearchTitle'=>'',
 'hotelSearchDescription'=>'',
 'hotelContactSendSuccess'=>'Send complete, Supplier reply to you soon',

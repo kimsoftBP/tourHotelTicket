@@ -105,6 +105,9 @@
                                 <label for="{{$row}}" class="form-check-label">{{__('messages.'.$row)}}</label>
                             </div>
                             @endforeach
+                            @error('category')
+                                <div class="text-danger">{{$message}}</div>
+                            @enderror
                         </div>
                         <div class="form-group row" id="companydata" >
                             <label class="col-form-label col-md-4 text-md-right">{{__('messages.companyName')}}</label>

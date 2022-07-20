@@ -20,7 +20,7 @@ class CreateHotelMessageTable extends Migration
             $table->string('text');
             $table->unsignedBigInteger('to_userid')->nullable();
             $table->unsignedBigInteger('from_userid')->nullable();
-            $table->foreign('from_userid')->references('id')->on('users')->onDelete('cascade')
+            $table->foreign('from_userid')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('hotel_companyid')->nullable();
             $table->foreign('hotel_companyid')->references('id')->on('hotel_company')->onDelete('cascade');
 

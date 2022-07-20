@@ -89,7 +89,7 @@ Route::group([
   	 * Restaurant search
   	 * **/
   	Route::group(['prefix'=>'restaurant'],function(){
-  		Route::get('/','Restaurant\RestaurantController@serach')->name('restaurant.search');
+  		Route::get('/','Restaurant\RestaurantController@search')->name('restaurant.search');
   	});
 //'middleware'=>'verified'
 	Route::group(['middleware'=>'auth' ], function () {
@@ -111,8 +111,8 @@ Route::group([
 		 * restaurant contacct
 		 * **/
 		Route::group(['prefix'=>'restaurnat'],function(){
-			Route::get('contact','Restaurant\RestaurantController@Contact')->name('restaurant.message');
-			Route::post('contact','Restaurant\RestaurantController@PostContact')->name('restaurant.message.post');
+			Route::get('contact','Restaurant\RestaurantController@Contact')->name('restaurant.customer.message');
+			Route::post('contact','Restaurant\RestaurantController@PostContact')->name('restaurant.customer.message.post');
 		});
 
 
@@ -191,6 +191,10 @@ Route::group([
 			Route::group(['middleware'=>'authrestaurant','prefix'=>'restaurant'],function(){
 				Route::get('/','Restaurant\Partner\PartnerRestaurantController@index')->name('partner.restaurant.index');
 
+				Route::post('/menu/add','Restaurant\Partner\PartnerRestaurantController@AddMenu')->name('partner.restaurant.menu.add');
+				Route::any('/menu/getEdit','Restaurant\Partner\PartnerRestaurantController@GetEditMenu')->name('partner.restaurant.menu.getEdit');
+				Route::post('/menu/edit','Restaurant\Partner\PartnerRestaurantController@EditMenu')->name('partner.restaurant.menu.postedit');
+				Route::post('/menu/delete','Restaurant\Partner\PartnerRestaurantController@DeleteMenu')->name('partner.restaurant.menu.delete');
 			});
 		});
 		

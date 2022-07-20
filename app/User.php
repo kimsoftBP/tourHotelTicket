@@ -248,6 +248,9 @@ class User extends Authenticatable //implements MustVerifyEmail
     public function HotelCompanyPermission(){
         return $this->hasMany('App\HotelCompanyPermission','userid','id');
     }
+    public function RestaurantCompanyPermission(){
+        return $this->hasMany('App\RestaurantCompanyPermission','userid','id');
+    }
     /*
     public function restaurant(){
         return $this->hasMany('App\Restaurant','userid','id')->first()->Restaurant;

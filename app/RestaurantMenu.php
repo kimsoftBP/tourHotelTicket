@@ -17,4 +17,7 @@ class RestaurantMenu extends Model
     public function Restaurant(){
         return $this->hasOne('App\Restaurant','id','restaurantid');
     }
+    public function currency(){
+        return $this->hasOne('App\Currency','id','currencyid');
+    }
 }

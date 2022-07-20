@@ -11,13 +11,16 @@ class Restaurant extends Model
     protected $primaryKey="id";
     protected $fillable=[
         'id',
-        'name','city','address','max_person','countryid','restaurant_companyid'
+        'name','city','address','max_person','countryid','restaurant_companyid',
         'created_at','updated_at'
         ];
     public function Company(){
         return $this->hasOne('App\RestaurantCompany','id','restaurant_companyid');
     }
     public function Menu(){
-        return $this->hasMany('App\RestaurantMenu','id','restaurantid');
+        return $this->hasMany('App\RestaurantMenu','restaurantid','id');
+    }
+    public function country(){
+        return $this->hasOne('App\Country','id','countryid');
     }
 }

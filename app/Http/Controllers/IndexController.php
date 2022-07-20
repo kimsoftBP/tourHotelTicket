@@ -32,6 +32,10 @@ use App\Hotel;
 use App\HotelCompany;
 use App\HotelCompanyPermission;
 
+use App\Restaurant;
+use App\RestaurantCompany;
+use App\RestaurantCompanyPermission;
+
 class IndexController extends Controller
 {
     public function index(){
@@ -476,7 +480,8 @@ class IndexController extends Controller
         $data['p_list']=[
                 'tourorticket',
                 'bus',
-                'hotel'];
+                'hotel',
+                'restaurant'];
         $data['country']=Country::get();
         return view('partner.signup')->with('data',$data);
     }
@@ -550,7 +555,22 @@ class IndexController extends Controller
         }
         if(strtolower($req->category)=='restaurant'){
             Permission::create(['userid'=>$user->id,'permid'=>$restaurantperm->id]);
-
+            $restaurantComp=RestaurantCompany::create([
+                'name'=>$req->companyName,
+                    'postcode'=>$req->postcode,
+                    'address'=>$req->address,
+                    'tax_number'=>$req->taxNumber,
+                    'countryid'=>$req->country,
+                    'city'=>$req->city,                
+                ]);
+            RestaurantCompanyPermission::create(['userid'=>$user->id,'restaurant_companyid'=>$restaurantComp->id]);
+            Restaurant::create([
+                    'name'=>$req->companyName,
+                    'city'=>$req->city,
+                    'address'=>$req->address,
+                    'countryid'=>$req->country,
+                    'restaurant_companyid'=>$restaurantComp->id,
+                ]);
         }
         if(strtolower($req->category)=='tourorticket'){
             Permission::create(['userid'=>$user->id,'permid'=>$ticketperm->id]);
