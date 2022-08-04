@@ -35,4 +35,7 @@ class BusCompany extends Model
             'userid',//Local Key on 2st table
             );//need get or first
     }
+    public function Subpage(){
+        return $this->hasMany('App\Subpage','bus_companyid','id');
+    }
 }

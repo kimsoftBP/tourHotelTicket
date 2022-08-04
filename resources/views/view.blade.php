@@ -31,6 +31,7 @@
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" >
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script type="text/javascript">
+		/*
 		setInterval(function() {   
 			var csrfToken = $('[name="_token"]').val(); 
 			$.ajax({
@@ -41,7 +42,7 @@
 			}).fail(function () {
 				alert('Error');
 			});
-		},6*60*100);  
+		},6*60*100);  */
 	</script>
 	<style type="text/css">
 		.js-cookie-consent{
@@ -61,7 +62,7 @@
 <body style="max-width: 2000px;margin:auto;">
 	@php
 		$routename="index";
-		if(NULL!=\Route::currentRouteName() && \Route::currentRouteName()!="main" && \Route::currentRouteName()!="cities" && \Route::currentRouteName()!="offers.product" ){
+		if(NULL!=\Route::currentRouteName() && \Route::currentRouteName()!="main" && \Route::currentRouteName()!="cities" && \Route::currentRouteName()!="offers.product" && \Route::currentRouteName()!="bus.subpage" && \Route::currentRouteName()!="hotel.subpage" && \Route::currentRouteName()!="restaurant.subpage" ){
 			$routename=\Route::currentRouteName();
 		}
 

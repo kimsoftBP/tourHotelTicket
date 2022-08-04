@@ -78,12 +78,14 @@ Route::group([
   	 * **/
   	Route::group(['prefix'=>'bus'],function(){
   		Route::get('/','Bus\BusController@search')->name('bus.search');
+  		Route::get('/{region}/{country}/{subpage}','Bus\BusSubpageController@subpage')->name('bus.subpage');
   	});
   	/***
   	 * Hotel search
   	 * **/
   	Route::group(['prefix'=>'hotel'],function(){
   		Route::get('/','Hotel\HotelController@search')->name('hotel.search');
+  		Route::get('/{region}/{country}/{subpage}','Hotel\HotelSubpageController@subpage')->name('hotel.subpage');
   	});
   	/***
   	 * Restaurant search
@@ -91,7 +93,10 @@ Route::group([
   	Route::group(['prefix'=>'restaurant'],function(){
   		Route::get('/','Restaurant\RestaurantController@search')->name('restaurant.search');
   	});
+
+
 //'middleware'=>'verified'
+
 	Route::group(['middleware'=>'auth' ], function () {
 		/***
 		 * Bus contact
@@ -172,6 +177,9 @@ Route::group([
 				Route::post('/buses/available/new','Bus\Partner\PartnerBusController@newAvailableC')->name('partner.bus.available.new');
 				Route::post('/buses/available/loadedit','Bus\Partner\PartnerBusController@loadEditAvailable')->name('partner.bus.available.loadedit');
 				Route::post('/buses/available/edit','Bus\Partner\PartnerBusController@editAvailable')->name('partner.bus.available.edit');
+
+				Route::get('/subpage','Bus\Partner\PartnerBusSubpageController@index')->name('partner.bus.subpage');
+				Route::post('/subpage/save','Bus\Partner\PartnerBusSubpageController@postEdit')->name('partner.bus.subpage.save');
 			});
 			/****
 			 * Hotel partner
@@ -184,6 +192,9 @@ Route::group([
 				Route::post('/room/edit','Hotel\Partner\PartnerHotelController@postEditRoom')->name('partner.hotel.room.postedit');
 				Route::any('/room/getAvailable','Hotel\Partner\PartnerHotelController@getAvailable')->name('partner.hotel.room.getcalendar');
 				Route::post('/room/available','Hotel\Partner\PartnerHotelController@available')->name('partner.hotel.room.postcalendar');
+
+				Route::get('/subpage','Hotel\Partner\PartnerHotelSubpageController@index')->name('partner.hotel.subpage');
+				Route::post('/subpage/save','Hotel\Partner\PartnerHotelSubpageController@postEdit')->name('partner.hotel.subpage.save');
 			});
 			/****
 			 * Restaurnat partner

@@ -114,7 +114,10 @@
   					<a href="#busSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{__('messages.bus')}}</a>
   					<ul class="collapse list-unstyled" id="busSubmenu">
 		        	<li>        		
-		        		<a href="{{route('partner.bus.index',app()->getLocale())}}">{{__('messages.dashboard')}}</a>        		
+		        		<a href="{{route('partner.bus.index',app()->getLocale())}}">{{__('messages.dashboard')}}</a>        
+		        	</li>
+		        	<li>
+		        		<a href="{{route('partner.bus.subpage',app()->getLocale())}}">{{__('messages.subpage')}}</a>
 		        	</li>
 		        	<li>
 		        		<a href="{{route('partner.bus.buses',app()->getLocale())}}">{{__('messages.buses')}}</a>
@@ -126,6 +129,9 @@
 		    	<li class="">
   					<a href="#HotelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{__('messages.hotel')}}</a>
   					<ul class="collapse list-unstyled" id="HotelSubmenu">
+  						<li>
+  							<a href="{{route('partner.hotel.subpage',app()->getLocale())}}">{{__('messages.subpage')}}</a>
+  						</li>
 		        	<li>        		
 		        		<a href="{{route('partner.hotel.index',app()->getLocale())}}">{{__('messages.room')}}</a>        		
 		        	</li>

@@ -20,4 +20,7 @@ class HotelCompany extends Model
     public function room(){
         return $this->hasMany('App\HotelRoom','hotelid','id');
     }
+    public function Subpage(){
+        return $this->hasMany('App\Subpage','hotel_companyid','id');
+    }
 }

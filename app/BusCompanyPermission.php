@@ -20,4 +20,5 @@ class BusCompanyPermission extends Model
     public function Company(){
         return $this->hasOne('App\BusCompany','id','bus_companyid');
     }
+
 }

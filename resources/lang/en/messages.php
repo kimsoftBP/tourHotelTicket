@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'photos'=>'Photos',
+	'subpage'=>'Subpage',
 	'restaurant'=>'Restaurant',
 'hotelSearchTitle'=>'',
 'hotelSearchDescription'=>'',
