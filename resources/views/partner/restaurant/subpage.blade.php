@@ -6,9 +6,10 @@
 @endsection
 @section('subcontent')
 <div>
-	@if($data['subpage']!=NULL && isset($data['subpage']->id))
-		<a href="{{route('bus.subpage',['locale'=>app()->getLocale(),'region'=>$data['region']->name ,'country'=>$data['country']->name, 'subpage'=>$data['subpage']->id ])}}" class="btn">{{route('bus.subpage',['locale'=>app()->getLocale(),'region'=>$data['region']->name ,'country'=>$data['country']->name, 'subpage'=>$data['subpage']->id ])}}</a>
+	@if($data['subpage']!=NULL && isset($data['subpage']->id)&& isset($data['region']) && $data['region']!=NULL)
+		<a href="{{route('restaurant.subpage',['locale'=>app()->getLocale(),'region'=>$data['region']->name ,'country'=>$data['country']->name, 'subpage'=>$data['subpage']->id ])}}" class="btn">{{route('restaurant.subpage',['locale'=>app()->getLocale(),'region'=>$data['region']->name ,'country'=>$data['country']->name, 'subpage'=>$data['subpage']->id ])}}</a>
 	@endif
+
 
 	@if (\Session::has('success'))
 	    <div class="alert alert-success">
@@ -26,9 +27,9 @@
 	@endif
 
 
-	<form action="{{route('partner.bus.subpage.save',app()->getLocale())}}" method="POST"  enctype="multipart/form-data">
+	<form action="{{route('partner.restaurant.subpage.save',app()->getLocale())}}" method="POST"  enctype="multipart/form-data">
 		@csrf
-		<input type="hidden" name="buscomp" value="{{$data['buscompany']->id}}">
+		<input type="hidden" name="hotelcomp" value="{{$data['buscompany']->id}}">
 		<input type="hidden" name="subpage" value="{{$data['subpage']->id??''}}">
 
 		<div class="form-group">

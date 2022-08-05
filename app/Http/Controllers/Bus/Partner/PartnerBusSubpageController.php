@@ -21,7 +21,9 @@ class PartnerBusSubpageController extends Controller
     //
     public function index(Request $req){
         $user=Auth::user();
-        $data['buscompany']=$user->BusPermission->first()->Company;        
+        $data['buscompany']=$user->BusPermission->first()->Company;
+        $data['country']=$data['buscompany']->country;
+        $data['region']=$data['country']->region;
         $data['subpage']=$data['buscompany']->Subpage->first();
         return view('partner.bus.subpage')->with('data',$data);
     }

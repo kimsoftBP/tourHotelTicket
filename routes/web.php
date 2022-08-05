@@ -92,6 +92,7 @@ Route::group([
   	 * **/
   	Route::group(['prefix'=>'restaurant'],function(){
   		Route::get('/','Restaurant\RestaurantController@search')->name('restaurant.search');
+  		Route::get('/{region}/{country}/{subpage}','Restaurant\RestaurantSubpageController@subpage')->name('restaurant.subpage');
   	});
 
 
@@ -206,6 +207,10 @@ Route::group([
 				Route::any('/menu/getEdit','Restaurant\Partner\PartnerRestaurantController@GetEditMenu')->name('partner.restaurant.menu.getEdit');
 				Route::post('/menu/edit','Restaurant\Partner\PartnerRestaurantController@EditMenu')->name('partner.restaurant.menu.postedit');
 				Route::post('/menu/delete','Restaurant\Partner\PartnerRestaurantController@DeleteMenu')->name('partner.restaurant.menu.delete');
+
+
+				Route::get('/subpage','Restaurant\Partner\PartnerRestaurantSubpageController@index')->name('partner.restaurant.subpage');
+				Route::post('/subpage/save','Restaurant\Partner\PartnerRestaurantSubpageController@postEdit')->name('partner.restaurant.subpage.save');
 			});
 		});
 		

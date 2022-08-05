@@ -23,4 +23,7 @@ class HotelCompany extends Model
     public function Subpage(){
         return $this->hasMany('App\Subpage','hotel_companyid','id');
     }
+    public function country(){
+        return $this->hasOne('App\Country','id','countryid');
+    }
 }

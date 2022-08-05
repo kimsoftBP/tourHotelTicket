@@ -142,6 +142,9 @@
 		    	<li class="">
   					<a href="#RestaurantSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{__('messages.Restaurant')}}</a>
   					<ul class="collapse list-unstyled" id="RestaurantSubmenu">
+  						<li>
+  							<a href="{{route('partner.restaurant.subpage',app()->getLocale())}}">{{__('messages.subpage')}}</a>
+  						</li>
 		        	<li>        		
 		        		<a href="{{route('partner.restaurant.index',app()->getLocale())}}">{{__('messages.')}}</a>        		
 		        	</li>

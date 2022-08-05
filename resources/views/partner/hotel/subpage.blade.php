@@ -6,6 +6,11 @@
 @endsection
 @section('subcontent')
 <div>
+	@if($data['subpage']!=NULL && isset($data['subpage']->id)&& isset($data['region']) && $data['region']!=NULL)
+		<a href="{{route('hotel.subpage',['locale'=>app()->getLocale(),'region'=>$data['region']->name ,'country'=>$data['country']->name, 'subpage'=>$data['subpage']->id ])}}" class="btn">{{route('hotel.subpage',['locale'=>app()->getLocale(),'region'=>$data['region']->name ,'country'=>$data['country']->name, 'subpage'=>$data['subpage']->id ])}}</a>
+	@endif
+
+
 	@if (\Session::has('success'))
 	    <div class="alert alert-success">
 	        <ul>

@@ -20,4 +20,10 @@ class RestaurantCompany extends Model
     public function Permission(){
         return $this->hasMany('App\RestaurantCompanyPermission','restaurant_companyid','id');
     }
+    public function Subpage(){
+        return $this->hasMany('App\Subpage','restaurant_companyid','id');
+    }
+    public function country(){
+        return $this->hasOne('App\Country','id','countryid');
+    }
 }
