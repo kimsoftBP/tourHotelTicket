@@ -20,7 +20,7 @@ class PartnerRestaurantController extends Controller
         $data['currency']=Currency::get();
    //     echo $data['restaurant']->id;
      //   echo count($data['restaurant']->Menu);
-        return view('partner.restaurant.menu')->with('data',$data);
+     //   return view('partner.restaurant.menu')->with('data',$data);
     }
 
 
