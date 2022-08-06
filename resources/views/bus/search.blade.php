@@ -48,74 +48,112 @@ $(function() {
 --}}
 @endsection
 @section('content')
-<div class="col-lg-10 " style="clear:both">
-	<div class="col-12 p-0">
-			<form>
-				<div class="row ">
-					<label class="d-none d-lg-block col-form-label">{{__('messages.from')}}</label>
-					<div class="col-12 col-md-2 col-lg-2">
-						<input class="form-control @error('from') is-invalid @enderror" type="text" name="from" placeholder="{{__('messages.City')}}" required value="{{old('from',$data['search']['from'])}}">
+<div class="col-10 p-0 m-0 row">
+		<div class="col-12 col-lg-6 " style="clear:both">
+			<div class="col-12 p-0">
+					<form>
+						<div class="row ">
+							<label class="d-none d-lg-block col-form-label">{{__('messages.from')}}</label>
+							<div class="col-12 col-md-2 col-lg-2">
+								<input class="form-control @error('from') is-invalid @enderror" type="text" name="from" placeholder="{{__('messages.City')}}" required value="{{old('from',$data['search']['from'])}}">
+							</div>
+							<label class="d-none d-lg-block col-form-label">{{__('messages.date')}}</label>
+							<div class="d-flex pl-2 pr-3">
+								<input class="form-control @error('daterange') is-invalid @enderror" type="text" name="daterange" value="{{old('daterange',$data['search']['range'])}}" autocomplete="off" placeholder="{{__('messages.dateRange')}}" />
+							</div>
+							<label class="d-none d-lg-block col-form-label">{{__('messages.persons')}}</label>
+							<div class="col-5 col-md-2 col-lg-1">
+								<input type="number" name="persons" class="form-control @error('persons') is-invalid @enderror" placeholder="{{__('messages.persons')}}" min="1" required value="{{old('persons',$data['search']['persons'])}}">
+							</div>
+							<button class="btn btn-primary">{{__('messages.search')}}</button>
+						</div>
+					</form>
+			</div>
+			<div>
+					@if (\Session::has('success'))
+				    <div class="alert alert-success">
+				        <ul>
+				            <li>{!! \Session::get('success') !!}</li>
+				        </ul>
+				    </div>
+				@endif
+				@if (\Session::has('error'))
+				    <div class="alert alert-danger">
+				        <ul>
+				            <li>{!! \Session::get('error') !!}</li>
+				        </ul>
+				    </div>
+				@endif
+			</div>
+			<div class="">
+					<div class=" mt-3 d-flex justify-content-center">
+						<table class="table">
+							<!--<tr>
+								<th></th>
+							</tr>
+						-->
+							@php
+								$lastCompanyid=NULL;
+							@endphp
+							@if($data['bus']!=NULL)
+								@foreach($data['bus'] as $row)
+									<tr>
+										@if($lastCompanyid==NULL || $lastCompanyid!=$row->bus_companyid)	
+											<td>{{$row->BusCompany->country->name}}</td>
+											<td>{{$row->BusCompany->city}}</td>
+										@else
+											<td colspan="2"></td>
+										@endif
+										<td>{{$row->BusType->brand}} {{$row->BusType->name}}</td>
+										<td>{{$row->passenger_seats}}</td>
+										<td>
+											<a class="btn btn-sm btn-primary" href="{{route('bus.customer.message',['locale'=>app()->getLocale(),'from'=>$data['search']['from'],'fromdate'=>$data['search']['fromdate'],'todate'=>$data['search']['todate'],'comp'=>$row->BusCompany->id,'bustype'=>$row->bustype,'persons'=>$data['search']['persons'] ])}}">
+											<i class="bi bi-envelope-plus-fill"></i>
+											</a>
+										</td>
+									</tr>
+									@php
+										$lastCompanyid=$row->bus_companyid;
+									@endphp
+								@endforeach 
+							@endif
+						</table>
 					</div>
-					<label class="d-none d-lg-block col-form-label">{{__('messages.date')}}</label>
-					<div class="d-flex pl-2 pr-3">
-						<input class="form-control @error('daterange') is-invalid @enderror" type="text" name="daterange" value="{{old('daterange',$data['search']['range'])}}" autocomplete="off" placeholder="{{__('messages.dateRange')}}" />
-					</div>
-					<label class="d-none d-lg-block col-form-label">{{__('messages.persons')}}</label>
-					<div class="col-5 col-md-2 col-lg-1">
-						<input type="number" name="persons" class="form-control @error('persons') is-invalid @enderror" placeholder="{{__('messages.persons')}}" min="1" required value="{{old('persons',$data['search']['persons'])}}">
-					</div>
-					<button class="btn btn-primary">{{__('messages.search')}}</button>
-				</div>
-			</form>
-	</div>
-<div>
-	@if (\Session::has('success'))
-    <div class="alert alert-success">
-        <ul>
-            <li>{!! \Session::get('success') !!}</li>
-        </ul>
-    </div>
-@endif
-@if (\Session::has('error'))
-    <div class="alert alert-danger">
-        <ul>
-            <li>{!! \Session::get('error') !!}</li>
-        </ul>
-    </div>
-@endif
-</div>
-	<div class="mt-3 d-flex justify-content-center">
-		<table class="table">
-			<!--<tr>
-				<th></th>
-			</tr>
-		-->
-			@php
-				$lastCompanyid=NULL;
-			@endphp
-			@if($data['bus']!=NULL)
-				@foreach($data['bus'] as $row)
-					<tr>
-						@if($lastCompanyid==NULL || $lastCompanyid!=$row->bus_companyid)	
-							<td>{{$row->BusCompany->country->name}}</td>
-							<td>{{$row->BusCompany->city}}</td>
-						@else
-							<td colspan="2"></td>
-						@endif
-						<td>{{$row->BusType->brand}} {{$row->BusType->name}}</td>
-						<td>{{$row->passenger_seats}}</td>
-						<td>
-							<a class="btn btn-sm btn-primary" href="{{route('bus.customer.message',['locale'=>app()->getLocale(),'from'=>$data['search']['from'],'fromdate'=>$data['search']['fromdate'],'todate'=>$data['search']['todate'],'comp'=>$row->BusCompany->id,'bustype'=>$row->bustype,'persons'=>$data['search']['persons'] ])}}">
-							<i class="bi bi-envelope-plus-fill"></i>
-							</a>
-						</td>
-					</tr>
-					@php
-						$lastCompanyid=$row->bus_companyid;
-					@endphp
-				@endforeach 
-			@endif
-		</table>
-	</div>
+
+					
+			</div>
+		</div>
+
+
+		
+		<div class="col-12 col-lg-6">
+					<table class="table">
+						<tr>
+							<th colspan="4"><h4>{{__('messages.WeFindABus')}}</h4></th>
+						</tr>
+						<tr>
+							<td>{{__('messages.from')}}</td>
+							<td>{{__('messages.date')}}</td>
+							<td>{{__('messages.to')}}</td>
+							<td>{{__('messages.todate')}}</td>
+							<td>{{__('messages.seat')}}</td>
+						</tr>
+						@foreach($data['busfind'] as $find)
+							<tr>
+								<td>{{$find->from}}</td>
+								<td>{{$find->from_date}} {{$find->from_time}}</td>
+								<td>{{$find->to}}</td>
+								<td>{{$find->to_date}} {{$find->to_time}}</td>
+								<td>{{$find->seat}}</td>
+								<td>
+									<a class="btn btn-sm btn-primary" href="#">
+											<i class="bi bi-envelope-plus-fill"></i>
+											</a>
+								</td>
+							</tr>
+						@endforeach
+					</table>
+		</div>
+		
 </div>
 @endsection

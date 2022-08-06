@@ -36,6 +36,7 @@ use App\Restaurant;
 use App\RestaurantCompany;
 use App\RestaurantCompanyPermission;
 
+use App\Subpage;
 class IndexController extends Controller
 {
     public function index(){
@@ -93,7 +94,7 @@ class IndexController extends Controller
                 });
             })
             ->get();
-        
+        $data['subpage']=Subpage::get();
     	return view('index')->with('data',$data);
     }
 

@@ -14,6 +14,7 @@ use App\BusType;
 use App\BusMessage;
 use App\LogBusSearch;
 use Illuminate\Support\Facades\DB;
+use App\BusFind;
 
 use App\Jobs\SendBusContactMail;
 use Auth;
@@ -100,7 +101,7 @@ ORDER BY `created_at` DESC
                 ->orderBy('bus_companyid')
                 ->get();
 //dd(DB::getQueryLog()); 
-
+        $data['busfind']=BusFind::get();
         return view('bus.search')->with('data',$data);
     }
 

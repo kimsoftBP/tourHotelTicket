@@ -129,14 +129,13 @@
 			</a>
 		</div>
 			
-
 		<div id="carouselExampleControls2" class="carousel slide carouseldesktop" data-ride="carousel" style="">
 			<div class="carousel-inner">
 				@php
 				$i=0;
 				@endphp
-				
-				@foreach($data['cities'] as $city)
+
+				@foreach($data['subpage'] as $subpage)
 					@if($i==0)
 						<div class="carousel-item active">
 							<div class="card-deck col-12 m-0 p-0">
@@ -147,20 +146,25 @@
 							<div class="card-deck col-12 m-0 p-0">
 					@endif
 									@php $img=""; @endphp
-										@if(NULL!=( $city->photos()->where('notes','small')->first()) )
-										@php
-											$photo=$city->photos()->where('notes','small')->first();
-											$img=$photo->folder."/".$photo->name;
-										@endphp
+										@if( isset($subpage->SubpageMainPhoto->first()->Photo ) && NULL!=( $subpage->SubpageMainPhoto->first()->Photo) )
+											@php
+												//$photo=$subpage->photos()->where('notes','small')->first();
+												$photo=$subpage->SubpageMainPhoto->first()->Photo;
+												$img=$photo->folder."/".$photo->name;
+											@endphp
 										
 										@endif
 						<!--<img class="d-block w-100" src="..." alt="First slide">-->
 						<div class="card cardcustom" style="	
 						background-image: linear-gradient(142deg,rgba(0,0,0,.7),hsla(0,0%,100%,0) 65%),url('{{$img}}');
-
+  height: 500px;
+  background-position: center;
+    background-repeat: no-repeat;
+  background-size: cover;
 						">
-							<a href="{{route('cities',['slug'=>$city->name,'locale'=>app()->getLocale()])}} ">
+							<a href=" ">
 								@php
+								/*
 									$citynameecho="";
 									$cityname=json_decode($city->namearray,true);
 									$loc=app()->getLocale();
@@ -168,7 +172,7 @@
 										$citynameecho=$cityname[$loc];
 									}else{
 										$citynameecho=$city->name;
-									}
+									}*/
 							 	@endphp
 									<!--
 										<img class="card-img-top " src="/image/download3.jpg" alt="Card image cap" height="350px;border-radius: 0%;">-->
@@ -179,7 +183,7 @@
 										<div class="card-img-overlay " style="color: white;
 										 	">
 
-											<h5 class="card-title font-weight-bold border-warning border-bottom" style="border-width: 2px!important;">{{$citynameecho}}</h5>
+											<h5 class="card-title font-weight-bold border-warning border-bottom" style="border-width: 2px!important;">{{$subpage->title}}</h5>
 
 											<p class="card-text font-weight-bold"></p>
 											<p class="card-text font-weight-bold"><small class="text-muted2" style="color:white"></small></p>
@@ -221,6 +225,7 @@
 				</div>
 
 		<!-- Advertising start -->
+@if(false)
 			<div id="carouseladvertising" class="carousel slide border" data-ride="carousel" style="padding-top: 60px">
 					<div class="carousel-inner">
 					@php $i=0; @endphp
@@ -306,7 +311,7 @@
 			</div>
 
 
-
+@endif
 
 
 		<div id="productcarouselExampleControls" class="carousel slide carouselmobile" data-ride="carousel" style="margin-top: 30px;">

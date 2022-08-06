@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'WeFindABus'=>'we are looking for a bus',
+	'where'=>'Where',
 	'photos'=>'Photos',
 	'subpage'=>'Subpage',
 	'restaurant'=>'Restaurant',

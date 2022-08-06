@@ -45,7 +45,7 @@ $(function() {
 	<div class="col-12 p-0">
 			<form>
 				<div class="row ">
-					<label class="d-none d-lg-block col-form-label">{{__('messages.from')}}</label>
+					<label class="d-none d-lg-block col-form-label">{{__('messages.where')}}</label>
 					<div class="col-12 col-md-2 col-lg-2">
 						<input class="form-control @error('from') is-invalid @enderror" type="text" name="from" placeholder="{{__('messages.City')}}" required value="{{old('from',$data['search']['from'])}}">
 					</div>
