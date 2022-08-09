@@ -17,10 +17,19 @@
 
 
 <script type="text/javascript">
+	
 $(function() {
 
   $('input[name="daterange"]').daterangepicker({
       autoUpdateInput: false,
+      	@if(isset($data['search']['fromdateObj']) && isset($data['search']['todateObj']))
+      		@php
+				$fromdate=$data['search']['fromdateObj'];
+				$todate=$data['search']['todateObj'];
+			@endphp
+		      startDate: '{{$fromdate->month}}/{{$fromdate->day}}/{{$fromdate->year}}',
+		       endDate: '{{$todate->month}}/{{$todate->day}}/{{$todate->year}}',
+		@endif
       locale: {
           cancelLabel: 'Clear'
       }

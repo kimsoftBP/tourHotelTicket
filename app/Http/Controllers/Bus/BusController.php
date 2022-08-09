@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\DB;
 use App\BusFind;
 
 use App\Jobs\SendBusContactMail;
+use App\Jobs\SendBusFindContactMail;
 use Auth;
+use Carbon\Carbon;
 
 class BusController extends Controller
 {
@@ -30,11 +32,14 @@ class BusController extends Controller
             ]);
         $daterange=$req->daterange;        
         $search['from']=$req->from;
-        $search['fromdate']=substr($daterange,0,13);
+        $search['fromdate']=substr($daterange,0,11);
+        $search['fromdateObj']=Carbon::createFromDate($search['fromdate']);
         $search['todate']=substr($daterange,13,strlen($daterange));
+        if($search['todate']!=NULL){
+            $search['todateObj']=Carbon::createFromDate($search['todate']);
+        }
         $search['persons']=$req->persons??1;
         $search['range']=$req->daterange;
-
         $sessionid=session()->getId();
         if($search['from']!=NULL){
             LogBusSearch::create([
@@ -158,5 +163,33 @@ ORDER BY `created_at` DESC
          $details['email']='tour@kimsoft.at';
         SendBusContactMail::dispatch($details);
          return redirect()->route('bus.search',app()->getLocale())->with('success',__('messages.busContactSendSuccess'));
+    }
+    public function ContactBusFind(Request $req){
+        $validateDate=$req->validate([
+            'search'=>'required|exists:App\BusFind,id',
+            ]);
+        $data['BusFind']=BusFind::where('id',$req->search)->first();
+        return view('bus.contactBusFind')->with('data',$data);
+    }
+    public function PostContactBusFind(Request $req){
+        $validateDate=$req->validate([
+            'search'=>'required|exists:App\BusFind,id',
+            'title'=>'',
+            'text'=>'required|string',
+            ]);
+        $user=Auth::user();
+        $busfindUser=BusFind::where('id',$req->search)->first()->User()->first();
+
+        $details=[
+            'email'=>$busfindUser->email,
+            'text'=>$req->text,
+            'title'=>$req->title??'',
+            'user'=>$user,
+            'locale'=>app()->getLocale(),
+            ];
+        SendBusFindContactMail::dispatch($details);
+        $details['email']='tour@kimsoft.at';
+        SendBusFindContactMail::dispatch($details);
+        return redirect()->route('bus.search',app()->getLocale())->with('success',__('messages.busContactfindSendSuccess'));
     }
 }

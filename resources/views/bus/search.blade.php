@@ -16,10 +16,20 @@
 
 
 <script type="text/javascript">
+
 $(function() {
+	
 
   $('input[name="daterange"]').daterangepicker({
-      autoUpdateInput: false,
+      autoUpdateInput: false,  
+      	@if(isset($data['search']['fromdateObj']) && isset($data['search']['todateObj']))
+			      	@php
+								$fromdate=$data['search']['fromdateObj'];
+								$todate=$data['search']['todateObj'];
+							@endphp
+			      startDate: '{{$fromdate->month}}/{{$fromdate->day}}/{{$fromdate->year}}',
+			      endDate: '{{$todate->month}}/{{$todate->day}}/{{$todate->year}}',
+			   @endif
       locale: {
           cancelLabel: 'Clear'
       }
@@ -49,7 +59,7 @@ $(function() {
 @endsection
 @section('content')
 <div class="col-10 p-0 m-0 row">
-		<div class="col-12 col-lg-6 " style="clear:both">
+		<div class="col-12 p-0 m-0">
 			<div class="col-12 p-0">
 					<form>
 						<div class="row ">
@@ -85,13 +95,15 @@ $(function() {
 				    </div>
 				@endif
 			</div>
-			<div class="">
+		</div>
+
+		<div class="col-12 col-lg-6 " style="clear:both">
+			
 					<div class=" mt-3 d-flex justify-content-center">
 						<table class="table">
-							<!--<tr>
-								<th></th>
+							<tr>
+								<th colspan="5"><h4>{{__('messages.BusIsAvailableNow')}}</h4></th>
 							</tr>
-						-->
 							@php
 								$lastCompanyid=NULL;
 							@endphp
@@ -121,15 +133,14 @@ $(function() {
 					</div>
 
 					
-			</div>
 		</div>
 
 
 		
-		<div class="col-12 col-lg-6">
+		<div class="col-12 col-lg-6 mt-3">
 					<table class="table">
 						<tr>
-							<th colspan="4"><h4>{{__('messages.WeFindABus')}}</h4></th>
+							<th colspan="6"><h4>{{__('messages.WeFindABus')}}</h4></th>
 						</tr>
 						<tr>
 							<td>{{__('messages.from')}}</td>
@@ -137,6 +148,7 @@ $(function() {
 							<td>{{__('messages.to')}}</td>
 							<td>{{__('messages.todate')}}</td>
 							<td>{{__('messages.seat')}}</td>
+							<td></td>
 						</tr>
 						@foreach($data['busfind'] as $find)
 							<tr>
@@ -146,7 +158,7 @@ $(function() {
 								<td>{{$find->to_date}} {{$find->to_time}}</td>
 								<td>{{$find->seat}}</td>
 								<td>
-									<a class="btn btn-sm btn-primary" href="#">
+									<a class="btn btn-sm btn-primary" href="{{route('bus.find.message',['locale'=>app()->getLocale(),'search'=>$find->id ])}}">
 											<i class="bi bi-envelope-plus-fill"></i>
 											</a>
 								</td>

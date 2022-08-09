@@ -105,6 +105,9 @@ Route::group([
 		Route::group(['prefix'=>'bus'],function(){
 			Route::get('contact','Bus\BusController@Contact')->name('bus.customer.message');
 			Route::post('contact','Bus\BusController@PostContact')->name('bus.customer.message.post');
+
+			Route::get('busfind/contact','Bus\BusController@ContactBusFind')->name('bus.find.message');
+			Route::post('busfind/contact','Bus\BusController@PostContactBusFind')->name('bus.find.message.post');
 		});
 		/**
 		 * hotel contact

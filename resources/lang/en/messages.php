@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'busContactfindSendSuccess'=>'Send complete',
+	'BusIsAvailableNow'=>'Bus is available now!',
 	'WeFindABus'=>'we are looking for a bus',
 	'where'=>'Where',
 	'photos'=>'Photos',

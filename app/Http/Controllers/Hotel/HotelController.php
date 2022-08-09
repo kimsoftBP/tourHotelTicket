@@ -9,6 +9,7 @@ use App\HotelMessage;
 use App\SendHotelContactMail;
 use App\HotelCompany;
 
+use Carbon\Carbon;
 class HotelController extends Controller
 {
     //
@@ -20,20 +21,31 @@ class HotelController extends Controller
             ]);
         $daterange=$req->daterange;        
         $search['from']=$req->from;
-        $search['fromdate']=substr($daterange,0,13);
+        $search['fromdate']=substr($daterange,0,11);
+        $search['fromdateObj']=Carbon::createFromDate($search['fromdate']);
         $search['todate']=substr($daterange,13,strlen($daterange));
+        if($search['todate']!=NULL){
+            $search['todateObj']=Carbon::createFromDate($search['todate']);
+        }
         $search['persons']=$req->persons??1;
         $search['range']=$req->daterange;
 
         $data['search']=$search;
         $data['hotel']=Hotel::with(['room'])
-            ->where('city','like','%'.$search['from'].'%')
+            ->where(function($regionQuery)use($search){
+                $regionQuery->where('city','like','%'.$search['from'].'%')
+                    ->orWhereHas('country',function($countryQuery)use($search){
+                        $countryQuery->where('name','like','%'.$search['from'].'%');
+                    });
+            })
             ->whereHas('room',function($roomQuery)use($search){
-                $roomQuery->whereDoesntHave('available',function($availableQuery)use($search){
-                    $availableQuery->where('date','>',$search['fromdate'])
-                        ->where('date','<',$search['todate'])
-                        ->whereRaw('piece < '.$search['persons']);
-                });
+                $roomQuery
+                    ->whereRaw('piece*maximum_people >= '.$search['persons'])//minimum annyi ágy legyen.
+                    ->whereDoesntHave('available',function($availableQuery)use($search){
+                        $availableQuery->where('date','>',$search['fromdate'])
+                            ->where('date','<',$search['todate'])
+                            ->whereRaw('piece*hotel_room.maximum_people < '.$search['persons']);
+                    });
             })->get();
         return view('hotel.search')->with('data',$data);
     }
