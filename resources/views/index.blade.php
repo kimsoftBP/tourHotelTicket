@@ -73,25 +73,53 @@
 	<div id="carouselExampleControls" class="carousel slide carouselmobile" data-ride="carousel" style="margin-top: 30px;">
 		<div class="carousel-inner">
 			@php $i=0; @endphp
-			@foreach($data['cities'] as $city)
+			@foreach($data['subpage'] as $subpage)
 				<div class="carousel-item w-100 {{$i==0 ? 'active':''}}">
 					<!--<img class="d-block w-100" src="..." alt="First slide">-->
 					@php $img=""; @endphp
-					@if(NULL!=( $city->photos()->where('notes','small')->first()) )
+					@if( isset($subpage->SubpageMainPhoto->first()->Photo ) && NULL!=( $subpage->SubpageMainPhoto->first()->Photo) )
 										@php
-											$photo=$city->photos()->where('notes','small')->first();
-											$img=$photo->folder."/".$photo->name;
+											$photo=$subpage->SubpageMainPhoto->first()->Photo;
+												$img=$photo->folder."/".$photo->name;
 										@endphp
 										
 										@endif
 					<div class="card-deck " >
-						<a href="{{route('cities',['slug'=>$city->name,'locale'=>app()->getLocale()])}} ">
+											@php
+							$SubPageRouteName="bus.subpage";
+							$region="r";
+							$country="r";
+
+							if($subpage->BusCompany!=NULL){
+								$SubPageRouteName="bus.subpage";
+								$comp=$subpage->BusCompany;
+								$c=$comp->country;
+								$country=$c->name;
+								$region=$c->region->name;
+							}
+							if($subpage->HotelCompany!=NULL){
+								$SubPageRouteName="hotel.subpage";
+								$comp=$subpage->HotelCompany;
+								$c=$comp->country;
+								$country=$c->name;
+								$region=$c->region->name;
+							}
+							if($subpage->RestaurantCompany!=NULL){
+								$SubPageRouteName="restaurant.subpage";
+								$comp=$subpage->RestaurantCompany;
+								$c=$comp->country;
+								$country=$c->name;
+								$region=$c->region->name;
+							}
+						@endphp
+						<a href="{{route($SubPageRouteName,['locale'=>app()->getLocale(), 'region'=>$region , 'country'=>$country ,'subpage'=>$subpage->id ])}} ">
 							<div class="card cardcustom" style="	
 						background-image: linear-gradient(142deg,rgba(0,0,0,.7),hsla(0,0%,100%,0) 65%),url('{{$img}}');margin-right:0px;width: 98%
 
 						">
 
 								@php
+								/*
 									$citynameecho="";
 									$cityname=json_decode($city->namearray,true);
 									$loc=app()->getLocale();
@@ -99,14 +127,14 @@
 										$citynameecho=$cityname[$loc];
 									}else{
 										$citynameecho=$city->name;
-									}
+									}*/
 							 	@endphp
 							<!--
 						<div class="card">							
 							<img class="card-img-top" src="{{$img}}" alt="Card image cap" height="350px;border-radius: 5%;">
 						-->
 							<div class="card-img-overlay" style="background-image: linear-gradient(142deg,rgba(0,0,0,.7),hsla(0,0%,100%,0) 65%); color:white">
-								<h5 class="card-title font-weight-bold">{{$citynameecho}}</h5>
+								<h5 class="card-title font-weight-bold">{{$subpage->title}}</h5>
 								<p class="card-text">{{--Text--}}</p>
 								<p class="card-text"><small class="text-muted2"></small></p>
 							</div>
@@ -162,7 +190,34 @@
     background-repeat: no-repeat;
   background-size: cover;
 						">
-							<a href=" ">
+						@php
+							$SubPageRouteName="bus.subpage";
+							$region="r";
+							$country="r";
+
+							if($subpage->BusCompany!=NULL){
+								$SubPageRouteName="bus.subpage";
+								$comp=$subpage->BusCompany;
+								$c=$comp->country;
+								$country=$c->name;
+								$region=$c->region->name;
+							}
+							if($subpage->HotelCompany!=NULL){
+								$SubPageRouteName="hotel.subpage";
+								$comp=$subpage->HotelCompany;
+								$c=$comp->country;
+								$country=$c->name;
+								$region=$c->region->name;
+							}
+							if($subpage->RestaurantCompany!=NULL){
+								$SubPageRouteName="restaurant.subpage";
+								$comp=$subpage->RestaurantCompany;
+								$c=$comp->country;
+								$country=$c->name;
+								$region=$c->region->name;
+							}
+						@endphp
+							<a href="{{route($SubPageRouteName,['locale'=>app()->getLocale(), 'region'=>$region , 'country'=>$country ,'subpage'=>$subpage->id ])}}">
 								@php
 								/*
 									$citynameecho="";
