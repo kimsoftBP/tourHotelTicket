@@ -18,7 +18,6 @@ class Authenticate extends Middleware
             $locale=$request->segment(1);
             //return app()->getLocale();
             return route('login',$locale);
-          //  return route('login',app()->getLocale());
         }
     }
 }
