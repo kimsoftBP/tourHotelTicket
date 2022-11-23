@@ -25,8 +25,11 @@ use App\LogSearch;
 use App\SubCategory;
 use App\Advertising;
 
+use App\Bus;
 use App\BusCompany;
 use App\BusCompanyPermission;
+use App\BusAvailable;
+use App\BusAvailableType;
 
 use App\Hotel;
 use App\HotelCompany;
@@ -37,9 +40,17 @@ use App\RestaurantCompany;
 use App\RestaurantCompanyPermission;
 
 use App\Subpage;
+use Carbon\Carbon;
 class IndexController extends Controller
 {
-    public function index(){
+    public function IndexMultipleSearch(Request $req){
+
+    }
+    public function index(Request $req){
+        $validateDate=$req->validate([
+            'pax'=>'nullable|string',
+            'City.*'=>'nullable|string',
+            ]);
         $now=now();
 
 /* available shareddata
@@ -95,6 +106,72 @@ class IndexController extends Controller
             })
             ->get();
         $data['subpage']=Subpage::get();
+        
+        $data['s']['pax']="";
+        $data['s']['city']=[];
+        $data['s']['cityinputnumber']=1;
+        $data['s']['restaurants']=[];
+        $data['s']['bus']=[];
+        if(is_array($req->City)){
+            $daterange=$req->daterange;        
+            $search['from']=$req->from;
+            $search['fromdate']=substr($daterange,0,11);
+            $search['fromdateObj']=Carbon::createFromDate($search['fromdate']);
+            $search['todate']=substr($daterange,13,strlen($daterange));
+            if($search['todate']!=NULL){
+                $search['todateObj']=Carbon::createFromDate($search['todate']);
+            }
+
+            $data['s']['pax']=$req->pax;
+            $data['s']['city']=$req->City;
+            $data['s']['cityinputnumber']=count($req->City);
+
+            $param['available']=BusAvailableType::where('name','Available')->first()->id;
+
+            $search_restaurant_part=Restaurant::whereRaw('1=1');
+            $search_bus_part=Bus::
+                with(['BusType','BusCompany','availableCalendar'])
+                ->whereDoesntHave('available',function($query)use($search,$param){
+                    $query->where(function($query)use($search,$param){
+                            $query->where('date','<=',$search['fromdate'])
+                                ->where('to_date','>',$search['fromdate'])
+                                ->where('bus_available_typeid','!=',$param['available'])
+                                ->where('remove','like',0);
+                            });
+                })
+                ->whereDoesntHave('available',function($available)use($search,$param){
+                    $available
+                        ->where(function($query2)use($search,$param){
+                            $query2->where('date','<',$search['todate'])
+                                ->where('to_date','<=',$search['todate'])
+                                ->where('bus_available_typeid','!=',$param['available'])
+                                ->where('remove','like',0);
+                        });
+                });
+
+            
+            $cityquery="(";
+                foreach($req->City as $s_city){
+                    $s_city=DB::getPdo()->quote('%'.$s_city.'%');
+                    if($cityquery!="("){$cityquery.=" or ";}
+                    $cityquery.=" city LIKE ".$s_city." ";
+                }
+            $cityquery.=")";
+            $search_restaurant_part->whereRaw($cityquery);
+            $search_bus_part->whereHas('BusCompany',function($queryCompany)use($cityquery,$req){
+                $queryCompany->where('city','like','%'.$req->City[0].'%');
+            });
+
+            $data['s']['restaurants']=$search_restaurant_part->get();
+            $data['s']['bus']=$search_bus_part
+                ->groupBy('bus_companyid')
+                ->groupBy('bustypeid')
+                ->orderBy('bus_companyid')
+                ->limit(1)
+                ->get();
+        }
+
+        
     	return view('index')->with('data',$data);
     }
 

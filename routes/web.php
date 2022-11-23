@@ -37,7 +37,7 @@ Route::get('/', function ( Request $req) {
     }
     app()->setLocale($lang);
   //  return app('App\Http\Controllers\indexController')->home($req);
-    return app('App\Http\Controllers\IndexController')->index();
+    return app('App\Http\Controllers\IndexController')->index($req);
     //return view('index');
 })->name('main');
 
@@ -60,6 +60,7 @@ Route::group([
   'prefix' => '{locale}', 
   'where' => ['locale' => '[a-zA-Z]{2}'], 
   'middleware' => 'setlocale'], function() {
+  	Route::get('/search','IndexController@IndexMultipleSearch')->name('index.search');
 
 
   	Route::get('/','IndexController@index')->name('index');

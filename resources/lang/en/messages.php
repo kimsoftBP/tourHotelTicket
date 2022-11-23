@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'addmorecity'=>'Add City',
+	'pax'=>'Pax',
 	'busContactfindSendSuccess'=>'Send complete',
 	'BusIsAvailableNow'=>'Bus is available now!',
 	'WeFindABus'=>'we are looking for a bus',

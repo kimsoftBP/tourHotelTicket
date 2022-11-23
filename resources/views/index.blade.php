@@ -7,6 +7,11 @@
 <meta property="og:site_name" content="{{__('page.sitename')}}" />
 <meta name="robots" content="index, follow" />
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 <style type="text/css">
 	@media only screen and (max-width:600px){
 		.carouselmobile{
@@ -49,15 +54,100 @@
 		overflow: hidden;
 	}
 </style>
- 
+ <script type="text/javascript">
+ 	function remove(elm){
+ 		$(elm).parent().remove();
+ 	}
+ 	function addcity(){
+ 		c=$("#searchCity").clone();
+ 		c.find('[type=text]').val('');
+ 		$("#searchCity").after(c);
+ 		$("#searchCity").attr('id','');
+ 	}
+ </script>
+<script type="text/javascript">
 
+$(function() {
+	
+
+  $('input[name="daterange"]').daterangepicker({
+      autoUpdateInput: false,  
+      	@if(isset($data['search']['fromdateObj']) && isset($data['search']['todateObj']))
+			      	@php
+								$fromdate=$data['search']['fromdateObj'];
+								$todate=$data['search']['todateObj'];
+							@endphp
+			      startDate: '{{$fromdate->month}}/{{$fromdate->day}}/{{$fromdate->year}}',
+			      endDate: '{{$todate->month}}/{{$todate->day}}/{{$todate->year}}',
+			   @endif
+      locale: {
+          cancelLabel: 'Clear'
+      }
+  });
+
+  $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
+  });
+
+  $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+  });
+
+});
+</script>
 @endsection
 @section('content')
+<datalist id="citys">
+	@foreach($data['cities'] as $city)
+		<option value="{{$city->name}}"></option>
+	@endforeach
+</datalist>
+
 <div class="col-lg-10" style="margin: auto;">
-	<div class="" style="margin-bottom: 30px; height: 100px">
+	<div class="" style="margin-bottom: 30px; rheight: 100px">
 		<div class="float-left">
 			<h2 class="font-weight-bold">{{__('messages.WhatDoYouSearch')}}</h2>
 		</div>
+		<form action="{{route('index',app()->getLocale())}}" method="get" enctype="multipart/form-data">
+			<div class="">
+						<div class="col-12 p-0 row" style="clear:both;">
+						
+							
+									<div class="form-group row col-12 col-sm-5 col-md-3 col-lg-2 mr-1 ml-1 shadow">
+										<label class="col-form-label">{{__('messages.pax')}}</label>
+										<div class="col-10">
+											<input type="number" name="pax" min="1" class="form-control" value="{{$data['s']['pax']??''}}">
+										</div>
+									</div>
+
+									<div class="form-group row col-12 col-sm-5 col-md-4 col-lg-3 mr-1 ml-1 shadow">
+										<label class="d-none d-lg-block col-form-label">{{__('messages.date')}}</label>
+										<div class="d-flex pl-2 pr-3">
+											<input class="form-control @error('daterange') is-invalid @enderror" type="text" name="daterange" value="{{old('daterange')}}" autocomplete="off" placeholder="{{__('messages.dateRange')}}" />
+										</div>
+									</div>
+										@for($i=0;$i<$data['s']['cityinputnumber'];$i++)
+											<div id="{{($data['s']['cityinputnumber']-1)==$i ? 'searchCity':''}}" class="form-group row col-12 col-sm-5 col-md-5 col-lg-3 pt-1 pb-1 pr-1 ml-1 mr-1  shadow" style="rbackground-color:lightgray;">
+												<label class="col-form-label">{{__('messages.city')}}</label>
+												<div class="col-9">
+													<input type="text" name="City[]" list="citys" class="form-control" value="{{$data['s']['city'][$i]??''}}">
+												</div>
+												<button class="btn btn-sm btn-danger" type="button" onclick="remove(this)">X</button>
+											</div>
+										@endfor
+
+										<div class="p-2 pl-3">
+											<button type="button" class="btn btn-sm btn-info shadow" onclick="addcity()">{{__('messages.addmorecity')}}</button>
+										</div>
+										<div class="p-2 pl-3">
+											<button class="btn btn-sm btn-primary shadow"><i class="bi bi-search shadow"></i></button>
+										</div>		
+						</div>
+						<div class="row">
+							
+						</div>
+			</div>
+		</form>
 		<!--
 		<div class="float-right">
 			<a class="btn btn-light border" href="{{route('region',app()->getLocale())}}">
@@ -69,8 +159,44 @@
 			<br><br>
 		</div>-->
 	</div>
-	
-	<div id="carouselExampleControls" class="carousel slide carouselmobile" data-ride="carousel" style="margin-top: 30px;">
+
+	<div class="shadow">
+			<table class="table table-hover">
+					<tr>
+						<th colspan="3" class="h5 font-weight-bold">{{__('messages.bus')}}</th>
+					</tr>
+					@foreach($data['s']['bus'] as $bus)
+						<tr>
+							<td>{{$bus->BusCompany->country->name}}</td>
+							<td>{{$bus->BusCompany->city}}</td>
+
+						</tr>
+					@endforeach
+
+					<tr>
+						<th colspan="3" class="h5 font-weight-bold">{{__('messages.hotel')}}</th>
+					</tr>
+
+
+					<tr>
+						<th colspan="3" class="h5 font-weight-bold">{{__('messages.restaurant')}}</th>
+					</tr>
+					@foreach($data['s']['restaurants'] as $restaurant)
+						<tr>
+							<td>{{$restaurant->country->name}}</td>
+							<td>{{$restaurant->city}}</td>
+							<td>346</td>
+						</tr>
+					@endforeach
+					<tr>
+						<th colspan="2"></th>
+						<td>235326 </td>
+					</tr>
+			</table>
+	</div>
+
+	<div style="clear: both;"></div>
+	<div id="carouselExampleControls" class="carousel slide carouselmobile" data-ride="carousel" style="margin-top: 30px; clear: both;">
 		<div class="carousel-inner">
 			@php $i=0; @endphp
 			@foreach($data['subpage'] as $subpage)

@@ -13,8 +13,12 @@ class Bus extends Model
         'id',
         'bustypeid','bus_companyid','basecity','license_plate','passenger_seats','luggage_places','year',
         'piece',//NULL csak akkor kell ha egyben x db
+        'currencyid','price_per_km','price_per_day',
         'created_at','updated_at',
         ];
+    public function Currency(){
+        return $this->hasOne('App\Currency','id','currencyid');
+    }
     public function BusCompany(){
         return $this->hasOne('App\BusCompany','id','bus_companyid');
     }
