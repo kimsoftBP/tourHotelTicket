@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Product;
 use App\Reservation;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

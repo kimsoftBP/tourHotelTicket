@@ -123,7 +123,7 @@ $(function() {
 									<div class="form-group row col-12 col-sm-5 col-md-4 col-lg-3 mr-1 ml-1 shadow">
 										<label class="d-none d-lg-block col-form-label">{{__('messages.date')}}</label>
 										<div class="d-flex pl-2 pr-3">
-											<input class="form-control @error('daterange') is-invalid @enderror" type="text" name="daterange" value="{{old('daterange')}}" autocomplete="off" placeholder="{{__('messages.dateRange')}}" />
+											<input class="form-control @error('daterange') is-invalid @enderror" type="text" name="daterange" value="{{old('daterange',$data['s']['dateRange'])}}" autocomplete="off" placeholder="{{__('messages.dateRange')}}" />
 										</div>
 									</div>
 										@for($i=0;$i<$data['s']['cityinputnumber'];$i++)
@@ -159,7 +159,18 @@ $(function() {
 			<br><br>
 		</div>-->
 	</div>
+@php
+	$BusPriceADay=500;
+	$HotelPricePerRoom=70;
+	$RestaurantPerPerson=15;
+	$RestaurantPrice=$data['s']['pax']*$RestaurantPerPerson;
 
+	$HotelPrice=$HotelPricePerRoom*($data['s']['pax']/2);
+
+	$BusPrice=$BusPriceADay*$data['s']['days'];
+	$SumRestaurantPrice=0;
+	$SumHotelPrice=0;
+@endphp
 	<div class="shadow">
 			<table class="table table-hover">
 					<tr>
@@ -169,14 +180,21 @@ $(function() {
 						<tr>
 							<td>{{$bus->BusCompany->country->name}}</td>
 							<td>{{$bus->BusCompany->city}}</td>
-
+							<td>{{$BusPrice}} {!!$data['currency']->html??''!!}</td>
 						</tr>
 					@endforeach
 
 					<tr>
 						<th colspan="3" class="h5 font-weight-bold">{{__('messages.hotel')}}</th>
 					</tr>
-
+					@foreach($data['s']['hotel'] as $hotel)
+						<tr>
+							<td>{{$hotel->country->name}}</td>
+							<td>{{$hotel->city}}</td>
+							<td>{{$HotelPrice}} {!!$data['currency']->html??''!!}</td>
+						</tr>
+						@php $SumHotelPrice+=$HotelPrice; @endphp
+					@endforeach
 
 					<tr>
 						<th colspan="3" class="h5 font-weight-bold">{{__('messages.restaurant')}}</th>
@@ -185,12 +203,13 @@ $(function() {
 						<tr>
 							<td>{{$restaurant->country->name}}</td>
 							<td>{{$restaurant->city}}</td>
-							<td>346</td>
+							<td>{{$RestaurantPrice}} {!!$data['currency']->html??''!!}</td>
 						</tr>
+						@php $SumRestaurantPrice+=$RestaurantPrice; @endphp
 					@endforeach
 					<tr>
 						<th colspan="2"></th>
-						<td>235326 </td>
+						<td>{{$SumRestaurantPrice+$BusPrice+$SumHotelPrice}} {!!$data['currency']->html??''!!}</td>
 					</tr>
 			</table>
 	</div>

@@ -50,8 +50,10 @@ class IndexController extends Controller
         $validateDate=$req->validate([
             'pax'=>'nullable|string',
             'City.*'=>'nullable|string',
+            'daterange'=>'',
             ]);
         $now=now();
+        $data['currency']=Currency::where('code','EUR')->first();
 
 /* available shareddata
         $data['tours']=Product::where('checkadmin',1)->where('remove',0)->count();
@@ -112,15 +114,20 @@ class IndexController extends Controller
         $data['s']['cityinputnumber']=1;
         $data['s']['restaurants']=[];
         $data['s']['bus']=[];
+        $data['s']['dateRange']=$req->daterange;
         if(is_array($req->City)){
             $daterange=$req->daterange;        
             $search['from']=$req->from;
             $search['fromdate']=substr($daterange,0,11);
             $search['fromdateObj']=Carbon::createFromDate($search['fromdate']);
             $search['todate']=substr($daterange,13,strlen($daterange));
+            $search['persons']=$req->pax;
             if($search['todate']!=NULL){
                 $search['todateObj']=Carbon::createFromDate($search['todate']);
             }
+
+            $data['s']['days']=$search['todateObj']->diffInDays($search['fromdateObj']);  
+
 
             $data['s']['pax']=$req->pax;
             $data['s']['city']=$req->City;
@@ -169,6 +176,24 @@ class IndexController extends Controller
                 ->orderBy('bus_companyid')
                 ->limit(1)
                 ->get();
+            $data['s']['hotel']=Hotel::with(['room'])
+                    ->where(function($regionQuery)use($search){
+                        $regionQuery->where('city','like','%'.$search['from'].'%')
+                            ->orWhereHas('country',function($countryQuery)use($search){
+                                $countryQuery->where('name','like','%'.$search['from'].'%');
+                            });
+                    })
+                    ->whereHas('room',function($roomQuery)use($search){
+                        $roomQuery
+                            ->whereRaw('piece*maximum_people >= '.$search['persons'])//minimum annyi ágy legyen.
+                            ->whereDoesntHave('available',function($availableQuery)use($search){
+                                $availableQuery->where('date','>',$search['fromdate'])
+                                    ->where('date','<',$search['todate'])
+                                    ->whereRaw('piece*hotel_room.maximum_people < '.$search['persons']);
+                            });
+                    })
+                    ->groupBy('city')
+                    ->get();
         }
 
         
