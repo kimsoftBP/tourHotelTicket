@@ -163,11 +163,18 @@ $(function() {
 	$BusPriceADay=500;
 	$HotelPricePerRoom=70;
 	$RestaurantPerPerson=15;
-	$RestaurantPrice=$data['s']['pax']*$RestaurantPerPerson;
+	$RestaurantPrice=0;
+	$HotelPrice=0;
+	$BusPrice=0;
 
-	$HotelPrice=$HotelPricePerRoom*($data['s']['pax']/2);
+	if($data['s']['pax']>0){
+		$RestaurantPrice=$data['s']['pax']*$RestaurantPerPerson;
+		$HotelPrice=$HotelPricePerRoom*($data['s']['pax']/2);
+	}
+	if(isset($data['s']['days']) && $data['s']['days']>0){
+		$BusPrice=$BusPriceADay*$data['s']['days'];
+	}
 
-	$BusPrice=$BusPriceADay*$data['s']['days'];
 	$SumRestaurantPrice=0;
 	$SumHotelPrice=0;
 @endphp
@@ -187,14 +194,15 @@ $(function() {
 					<tr>
 						<th colspan="3" class="h5 font-weight-bold">{{__('messages.hotel')}}</th>
 					</tr>
-					@foreach($data['s']['hotel'] as $hotel)
-						<tr>
-							<td>{{$hotel->country->name}}</td>
-							<td>{{$hotel->city}}</td>
-							<td>{{$HotelPrice}} {!!$data['currency']->html??''!!}</td>
-						</tr>
-						@php $SumHotelPrice+=$HotelPrice; @endphp
-					@endforeach
+
+						@foreach($data['s']['hotel'] as $hotel)
+							<tr>
+								<td>{{$hotel->country->name}}</td>
+								<td>{{$hotel->city}}</td>
+								<td>{{$HotelPrice}} {!!$data['currency']->html??''!!}</td>
+							</tr>
+							@php $SumHotelPrice+=$HotelPrice; @endphp
+						@endforeach
 
 					<tr>
 						<th colspan="3" class="h5 font-weight-bold">{{__('messages.restaurant')}}</th>

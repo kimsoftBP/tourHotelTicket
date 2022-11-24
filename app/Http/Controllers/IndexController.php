@@ -114,6 +114,7 @@ class IndexController extends Controller
         $data['s']['cityinputnumber']=1;
         $data['s']['restaurants']=[];
         $data['s']['bus']=[];
+        $data['s']['hotel']=[];
         $data['s']['dateRange']=$req->daterange;
         if(is_array($req->City)){
             $daterange=$req->daterange;        
