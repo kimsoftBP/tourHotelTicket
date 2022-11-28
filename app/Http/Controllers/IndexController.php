@@ -126,9 +126,9 @@ class IndexController extends Controller
             if($search['todate']!=NULL){
                 $search['todateObj']=Carbon::createFromDate($search['todate']);
             }
-
-            $data['s']['days']=$search['todateObj']->diffInDays($search['fromdateObj']);  
-
+           // if(isset($search['todateObj'])&& $search['todateObj']!=NULL && $search['fromdateObj']!=NULL){
+                $data['s']['days']=$search['todateObj']->diffInDays($search['fromdateObj']);  
+           // }
 
             $data['s']['pax']=$req->pax;
             $data['s']['city']=$req->City;
@@ -183,7 +183,7 @@ class IndexController extends Controller
                             ->orWhereHas('country',function($countryQuery)use($search){
                                 $countryQuery->where('name','like','%'.$search['from'].'%');
                             });
-                    })
+                    })/*
                     ->whereHas('room',function($roomQuery)use($search){
                         $roomQuery
                             ->whereRaw('piece*maximum_people >= '.$search['persons'])//minimum annyi ágy legyen.
@@ -192,8 +192,8 @@ class IndexController extends Controller
                                     ->where('date','<',$search['todate'])
                                     ->whereRaw('piece*hotel_room.maximum_people < '.$search['persons']);
                             });
-                    })
-                    ->groupBy('city')
+                    })*/
+                 //   ->groupBy('city')
                     ->get();
         }
 

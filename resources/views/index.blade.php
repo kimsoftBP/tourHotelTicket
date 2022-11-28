@@ -180,8 +180,8 @@ $(function() {
 @endphp
 	<div class="shadow">
 			<table class="table table-hover">
-					<tr>
-						<th colspan="3" class="h5 font-weight-bold">{{__('messages.bus')}}</th>
+					<tr class="table-secondary">
+						<th colspan="3" class="h4  font-weight-bold" style="color: darkblue;">{{__('messages.bus')}}</th>
 					</tr>
 					@foreach($data['s']['bus'] as $bus)
 						<tr>
@@ -191,8 +191,8 @@ $(function() {
 						</tr>
 					@endforeach
 
-					<tr>
-						<th colspan="3" class="h5 font-weight-bold">{{__('messages.hotel')}}</th>
+					<tr class="table-secondary">
+						<th colspan="3" class="h4 font-weight-bold">{{__('messages.hotel')}}</th>
 					</tr>
 
 						@foreach($data['s']['hotel'] as $hotel)
@@ -204,8 +204,8 @@ $(function() {
 							@php $SumHotelPrice+=$HotelPrice; @endphp
 						@endforeach
 
-					<tr>
-						<th colspan="3" class="h5 font-weight-bold">{{__('messages.restaurant')}}</th>
+					<tr class="table-secondary">
+						<th colspan="3" class="h4 font-weight-bold">{{__('messages.restaurant')}}</th>
 					</tr>
 					@foreach($data['s']['restaurants'] as $restaurant)
 						<tr>
