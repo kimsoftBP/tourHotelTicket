@@ -16,5 +16,7 @@ class VerifyCsrfToken extends Middleware
         'en/logout',
         'ko/logout',
         'hu/logout',
+        '*/logout',
+        'logout',
     ];
 }
